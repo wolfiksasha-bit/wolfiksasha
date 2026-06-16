@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Архив Предела — справочник мира «Разрыв»</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #1b1712;
+            font-family: 'Courier New', 'Courier', monospace;
+            color: #ead9c6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #2a241e;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            overflow: hidden;
+            border: 1px solid #5e4b36;
+        }
+
+        header {
+            background: #1f1813;
+            padding: 20px 30px;
+            border-bottom: 2px solid #b97f44;
+        }
+        header h1 {
+            color: #f5e3c4;
+            font-size: 28px;
+            letter-spacing: 3px;
+            font-weight: normal;
+        }
+        header p {
+            color: #b4916b;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+        header .sub {
+            font-style: italic;
+            font-size: 12px;
+            color: #9b7a58;
+            border-top: 1px dashed #4f3e2a;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            background: #241f19;
+            padding: 15px 20px;
+            border-bottom: 1px solid #3f3224;
+        }
+        .toolbar button {
+            background: #4d3826;
+            border: none;
+            color: #f0debe;
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-family: monospace;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .toolbar button.active {
+            background: #b97f44;
+            color: #1f1710;
+            font-weight: bold;
+        }
+        .toolbar button:hover {
+            background: #785e3f;
+        }
+
+        .records-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 25px;
+        }
+
+        .card {
+            background: #2b241c;
+            border-left: 4px solid #b97f44;
+            border-radius: 16px;
+            padding: 18px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            transition: 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover {
+            transform: scale(1.01);
+            border-left-color: #dba066;
+        }
+        .card .title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #f5e0bc;
+            margin-bottom: 5px;
+        }
+        .card .type {
+            font-size: 12px;
+            color: #b4916b;
+            margin-bottom: 8px;
+        }
+        .card .status {
+            font-size: 11px;
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 40px;
+            background: #4d3826;
+            color: #d4b68a;
+            margin-bottom: 10px;
+            align-self: flex-start;
+        }
+        .status.met { background: #3d5a3d; color: #b2d9b2; }
+        .status.studied { background: #3d4d6b; color: #b2c9e0; }
+        .status.danger { background: #6b3d3d; color: #f0b2b2; }
+        .status.rumor { background: #5f4a3a; color: #d4b68a; }
+        .status.unknown { background: #3a3a3a; color: #aaaaaa; }
+
+        .card .text {
+            font-size: 13px;
+            line-height: 1.4;
+            color: #d4c8b6;
+            margin: 8px 0 12px;
+            flex: 1;
+        }
+        .card .comment {
+            font-size: 12px;
+            color: #a58d72;
+            border-top: 1px solid #3f3224;
+            padding-top: 10px;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        .card .image {
+            width: 100%;
+            height: 120px;
+            background: #3b3228;
+            border-radius: 10px;
+            margin: 8px 0 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7a6548;
+            font-size: 12px;
+            background-size: cover;
+            background-position: center;
+            background-color: #2e261e;
+            border: 1px solid #5f4a34;
+            overflow: hidden;
+        }
+        .card .image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .card .image .placeholder {
+            color: #9f886b;
+        }
+
+        footer {
+            background: #15100b;
+            padding: 12px;
+            text-align: center;
+            font-size: 11px;
+            color: #8a7357;
+            border-top: 1px solid #3c3022;
+        }
+        .footer-note {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 600px) {
+            .records-grid {
+                grid-template-columns: 1fr;
+                padding: 15px;
+            }
+            header h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>✦ АРХИВ ПРЕДЕЛА ✦</h1>
+        <p>Интерактивный справочник мира «Разрыв»</p>
+        <div class="sub">«Мы не знаем всего. Мы записываем то, что видим. И надеемся, что следующая страница не станет последней.» — Мира Уэст</div>
+    </header>
+
+    <div class="toolbar" id="filterBar">
+        <button class="active" data-filter="all">Все записи</button>
+        <button data-filter="people">Люди</button>
+        <button data-filter="locations">Локации</button>
+        <button data-filter="anomalies">Аномалии</button>
+        <button data-filter="factions">Фракции</button>
+        <button data-filter="artifacts">Артефакты</button>
+        <button data-filter="rituals">Ритуалы</button>
+    </div>
+
+    <div id="recordsContainer" class="records-grid">
+        <!-- записи будут вставлены сюда -->
+    </div>
+
+    <footer>
+        <div class="footer-note">Записи появляются по мере встречи героев с новыми явлениями.</div>
+    </footer>
+</div>
+
+<script>
+    // ---------- БАЗА ДАННЫХ (массив записей) ----------
+    // Добавляй новые записи сюда!
+    const records = [
+        // ЛЮДИ
+        {
+            id: 1,
+            title: "Чистые",
+            type: "people",
+            status: "studied", // met, studied, danger, rumor, unknown
+            image: "", // оставь пустым или вставь ссылку на картинку
+            text: "Люди, никогда не пользовавшиеся MnemOS. Их память не загрязнена чужими воспоминаниями. Редки, за ними охотятся синхронисты и культ Забвения.",
+            comment: "Корб: «Они — единственные, кто может подтвердить, что было до Разрыва. Поэтому их так ценят. И так боятся.»"
+        },
+        {
+            id: 2,
+            title: "Обычные выжившие",
+            type: "people",
+            status: "met",
+            image: "",
+            text: "Большинство населения. Пользовались MnemOS, но удержали себя. Держатся за якоря: бумажные дневники, фотографии, старые часы.",
+            comment: "Рейн: «Мы все такие. Иногда я проверяю, помню ли своё имя. Это страшно, но привычно.»"
+        },
+        {
+            id: 3,
+            title: "Эхо (цикличные)",
+            type: "people",
+            status: "studied",
+            image: "",
+            text: "Застряли в одном воспоминании. Повторяют один и тот же день, фразу, действие. Не агрессивны, пока не нарушить цикл.",
+            comment: "Мира: «Я видела женщину, которая каждый вечер накрывала на стол для мужа, которого уже нет. Она не помнит, что он умер.»"
+        },
+        {
+            id: 4,
+            title: "Потерянные",
+            type: "people",
+            status: "studied",
+            image: "",
+            text: "Личность медленно стирается. Забывают имена, потом лица, потом — как дышать. Ещё можно вернуть якорями, если успеть.",
+            comment: "Корб: «Если заметил, что человек начал повторяться — изолируй. И дай ему якорь. Быстро.»"
+        },
+        {
+            id: 5,
+            title: "Сшитые (стабильные)",
+            type: "people",
+            status: "studied",
+            image: "",
+            text: "В одном сознании живут несколько личностей. Одна доминирует, другие — как голоса. Могут быть опасны, но иногда полезны.",
+            comment: "Анна: «Они не виноваты. Но я не подхожу близко. Слишком непредсказуемы.»"
+        },
+        {
+            id: 6,
+            title: "Сшитые (глубокие)",
+            type: "people",
+            status: "danger",
+            image: "",
+            text: "Хаос из многих личностей. Полная потеря контроля. Могут быть смертельно опасны. Единственный выход — изоляция.",
+            comment: "Корб: «Таких не спасти. Только остановить.»"
+        },
+        {
+            id: 7,
+            title: "Пустые (обычные)",
+            type: "people",
+            status: "danger",
+            image: "",
+            text: "Личность стёрта. Остались только инстинкты. Медленно бредут, не разговаривают. Голодные — нападают как животные.",
+            comment: "Корб: «Укус почти всегда вызывает сепсис. Соль и вода — первые минуты. Потом — только чудо.»"
+        },
+        {
+            id: 8,
+            title: "Пустые (глубокие)",
+            type: "people",
+            status: "danger",
+            image: "",
+            text: "«Чёрные дыры» для эмоций. Толпы таких Пустых вызывают у людей апатию, провалы памяти. В радиусе 10 метров — теряешь себя.",
+            comment: "Корб: «Толпа Глубоких Пустых — это стихийное бедствие. Не беги. Просто уходи, если успеешь.»"
+        },
+
+        // ЛОКАЦИИ
+        {
+            id: 10,
+            title: "«Предел»",
+            type: "locations",
+            status: "studied",
+            image: "",
+            text: "Укреплённое поселение на старой лесопилке. Стены из металла и брёвен, река, шериф Коул Мэддокс. Безопасно, если не нарушать правил.",
+            comment: "Мира: «Здесь пахнет хлебом и страхом. Но люди улыбаются. Это странно.»"
+        },
+        {
+            id: 11,
+            title: "Кедровый Лог",
+            type: "locations",
+            status: "met",
+            image: "",
+            text: "Сожжённое поселение, где жила Мира. Уничтожено культом Забвения. Сейчас — пепелище и напоминание о первой катастрофе.",
+            comment: "Мира: «Я не вернусь туда. Но иногда вижу его во сне.»"
+        },
+        {
+            id: 12,
+            title: "Кровавый лес",
+            type: "locations",
+            status: "danger",
+            image: "",
+            text: "Лес, где деревья «помнят» крики умирающих. Временные петли, багровый туман, «шепчущие корни». Опасен для одиночек.",
+            comment: "Корб: «Не ходи без проводника. И без соли.»"
+        },
+        {
+            id: 13,
+            title: "Маяк Чистых",
+            type: "locations",
+            status: "studied",
+            image: "",
+            text: "Каменный маяк на скалистом острове. Убежище Чистых. Изоляция, рыболовство, радиоузел. После нападения синхронистов почти опустел.",
+            comment: "Ноа: «Я выжил. Но многие — нет.»"
+        },
+        {
+            id: 14,
+            title: "Форт Хоука",
+            type: "locations",
+            status: "danger",
+            image: "",
+            text: "База банды на трассе 101. Бывший мотель, обнесённый колючей проволокой. Власть Деклана Хоука и его людей.",
+            comment: "Корб: «Если не знаешь пароль — обходи стороной.»"
+        },
+        {
+            id: 15,
+            title: "«Эмбер»",
+            type: "locations",
+            status: "studied",
+            image: "",
+            text: "Диктатура на месте бывшего военного склада. Запрещены любые носители памяти. Глава — Равенна Крейн. Железный порядок, доносы, казни.",
+            comment: "Оливер: «Там живёт моя мать. Она не та, кем была.»"
+        },
+        {
+            id: 16,
+            title: "Узел (горный)",
+            type: "locations",
+            status: "danger",
+            image: "",
+            text: "Заброшенный подземный дата-центр MnemOS в Каскадных горах. Вход через старую ГЭС. Аномалии времени, ложные коридоры, призрачные голоса.",
+            comment: "Корб: «Туда можно войти. Но не факт, что выйдешь.»"
+        },
+
+        // АНОМАЛИИ
+        {
+            id: 20,
+            title: "Стеклянный дождь",
+            type: "anomalies",
+            status: "danger",
+            image: "",
+            text: "Материализованная память о взрыве окон. Осколки падают с неба в определённых зонах. Укрыться невозможно — только переждать.",
+            comment: "Рейн: «Я видела это. У меня до сих пор шрамы на руке.»"
+        },
+        {
+            id: 21,
+            title: "Горячий шёпот",
+            type: "anomalies",
+            status: "danger",
+            image: "",
+            text: "Внезапные языки пламени из ниоткуда. Чем сильнее страх — тем серьёзнее ожоги. Помогает только спокойствие и быстрый уход.",
+            comment: "Мира: «Я рисовала пламя, и оно утихало. Не знаю, почему.»"
+        },
+        {
+            id: 22,
+            title: "Тихие трассы",
+            type: "anomalies",
+            status: "met",
+            image: "",
+            text: "Участки дорог, где исчезают все звуки. Через час — провалы памяти. Спасает только постоянная речь и якорь.",
+            comment: "Корб: «Говори вслух. Описывай, что видишь. Не дай тишине победить.»"
+        },
+
+        // ФРАКЦИИ
+        {
+            id: 30,
+            title: "Синхронисты (Восс)",
+            type: "factions",
+            status: "danger",
+            image: "",
+            text: "Секта, верящая в слияние всех сознаний. Лидер — Элиан Восс, бывший психолог. Охотятся за Чистыми и художниками.",
+            comment: "Корб: «Они не злодеи. Они — безумцы, которые считают себя спасителями.»"
+        },
+        {
+            id: 31,
+            title: "Культ Забвения",
+            type: "factions",
+            status: "studied",
+            image: "",
+            text: "Секта, проповедующая отказ от памяти. Считают, что боль и страдания рождаются из воспоминаний. Добровольно идут к Пустоте.",
+            comment: "Мира: «Они сожгли мой дом. Я никогда не забуду их пение: „Забвение — милость“.»"
+        },
+        {
+            id: 32,
+            title: "Чистильщики (Элайджа)",
+            type: "factions",
+            status: "met",
+            image: "",
+            text: "Отряд наёмников, уничтожающих тех, кто необратимо потерял себя. Лидер — Элайджа Вэйн. Холоден, принципиален, не берёт плату.",
+            comment: "Корб: «Он прав, что некоторые не спасти. Вопрос — кто решает, кого спасать?»"
+        },
+
+        // АРТЕФАКТЫ
+        {
+            id: 40,
+            title: "Альбом Миры",
+            type: "artifacts",
+            status: "studied",
+            image: "",
+            text: "Походный альбом с рисунками Миры. Её главный якорь. Иногда рисунки «живут своей жизнью» — на них появляются те, кого она не рисовала.",
+            comment: "Мира: «Я боюсь открывать его в темноте. Но без него я бы уже забыла, кто я.»"
+        },
+        {
+            id: 41,
+            title: "Старые часы Корба",
+            type: "artifacts",
+            status: "studied",
+            image: "",
+            text: "Механические часы, которые Корб носит с до-разрывных времён. Они всегда идут, даже когда всё остальное ломается.",
+            comment: "Корб: «Время — единственное, что нельзя подделать.»"
+        }
+        // Добавляй новые записи сюда — просто дописывай объекты через запятую
+    ];
+
+    // ---------- ЛОГИКА ОТОБРАЖЕНИЯ ----------
+    const container = document.getElementById('recordsContainer');
+    const filterButtons = document.querySelectorAll('#filterBar button');
+
+    let currentFilter = 'all';
+
+    function render(filter = 'all') {
+        const filtered = filter === 'all' 
+            ? records 
+            : records.filter(r => r.type === filter);
+
+        if (filtered.length === 0) {
+            container.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding:40px; color:#9b7a58;">Нет записей в этом разделе. Возвращайся позже.</div>`;
+            return;
+        }
+
+        container.innerHTML = filtered.map(rec => {
+            // Определяем класс статуса
+            let statusClass = rec.status || 'unknown';
+            let statusLabel = {
+                met: 'Встречено',
+                studied: 'Изучено',
+                danger: 'Опасно',
+                rumor: 'Слух',
+                unknown: 'Неизвестно'
+            }[statusClass] || statusClass;
+
+            // Изображение
+            let imgHtml = '';
+            if (rec.image) {
+                imgHtml = `<div class="image"><img src="${rec.image}" alt="${rec.title}"></div>`;
+            } else {
+                imgHtml = `<div class="image"><span class="placeholder">🖼️</span></div>`;
+            }
+
+            return `
+                <div class="card">
+                    <div class="title">${rec.title}</div>
+                    <div class="type">${rec.type}</div>
+                    <span class="status ${statusClass}">${statusLabel}</span>
+                    ${imgHtml}
+                    <div class="text">${rec.text}</div>
+                    ${rec.comment ? `<div class="comment">${rec.comment}</div>` : ''}
+                </div>
+            `;
+        }).join('');
+    }
+
+    // Фильтрация по кнопкам
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const filter = btn.dataset.filter;
+            currentFilter = filter;
+            render(filter);
+        });
+    });
+
+    // Стартовый рендеринг
+    render('all');
+</script>
+</body>
+</html>
