@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Архив Предела — справочник мира «Разрыв»</title>
     <style>
+        /* ===== БАЗОВЫЕ СТИЛИ (как были) ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* ========== СВЕТЛАЯ ТЕМА (по умолчанию) ========== */
         body {
             background: #e8e0d5;
             font-family: 'Courier New', 'Courier', monospace;
@@ -57,7 +57,7 @@
             margin-top: 10px;
         }
 
-        /* ===== ТЁМНАЯ ТЕМА (класс на body) ===== */
+        /* ===== ТЁМНАЯ ТЕМА ===== */
         body.dark-theme {
             background: #1b1712;
             color: #ead9c6;
@@ -117,11 +117,6 @@
         body.dark-theme .card .image .placeholder {
             color: #9f886b;
         }
-        body.dark-theme .status.met { background: #3d5a3d; color: #b2d9b2; }
-        body.dark-theme .status.studied { background: #3d4d6b; color: #b2c9e0; }
-        body.dark-theme .status.danger { background: #6b3d3d; color: #f0b2b2; }
-        body.dark-theme .status.rumor { background: #5f4a3a; color: #d4b68a; }
-        body.dark-theme .status.unknown { background: #3a3a3a; color: #aaaaaa; }
         body.dark-theme .controls-panel {
             background: #1f1813;
             border-color: #3f3224;
@@ -139,6 +134,29 @@
             background: #15100b;
             color: #8a7357;
             border-color: #3c3022;
+        }
+        body.dark-theme .overlay {
+            background: rgba(0, 0, 0, 0.85);
+        }
+        body.dark-theme .overlay-content {
+            background: #2a241e;
+            border-color: #5e4b36;
+        }
+        body.dark-theme .overlay-content .close-btn {
+            color: #b4916b;
+        }
+        body.dark-theme .overlay-content .close-btn:hover {
+            color: #ead9c6;
+        }
+        body.dark-theme .overlay-content .meta {
+            color: #9b7a58;
+        }
+        body.dark-theme .overlay-content .full-text {
+            color: #d4c8b6;
+        }
+        body.dark-theme .overlay-content .full-comment {
+            color: #a58d72;
+            border-color: #3f3224;
         }
 
         /* ===== ПАНЕЛЬ УПРАВЛЕНИЯ ===== */
@@ -263,10 +281,12 @@
             display: flex;
             flex-direction: column;
             color: #2b241c;
+            cursor: pointer;
         }
         .card:hover {
             transform: scale(1.01);
             border-left-color: #dba066;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
         .card .title {
             font-size: 18px;
@@ -345,11 +365,127 @@
             border-top: 1px solid #b8a68b;
             transition: background 0.3s, border-color 0.3s;
         }
-        .footer-note {
-            max-width: 900px;
-            margin: 0 auto;
+
+        /* ===== МОДАЛЬНОЕ ОКНО (ОВЕРЛЕЙ) ===== */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeIn 0.25s ease;
+        }
+        .overlay.open {
+            display: flex;
         }
 
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.96); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .overlay-content {
+            background: #f5efe8;
+            border: 2px solid #b97f44;
+            border-radius: 28px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px 35px;
+            position: relative;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+            transition: background 0.3s, border-color 0.3s;
+        }
+        .overlay-content .close-btn {
+            position: absolute;
+            top: 16px;
+            right: 22px;
+            font-size: 28px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #7a6548;
+            font-family: 'Courier New', monospace;
+            transition: 0.2s;
+            line-height: 1;
+        }
+        .overlay-content .close-btn:hover {
+            color: #3d2e1d;
+            transform: rotate(90deg);
+        }
+        .overlay-content .full-title {
+            font-size: 26px;
+            font-weight: bold;
+            color: #3d2e1d;
+            margin-bottom: 4px;
+            padding-right: 40px;
+        }
+        .overlay-content .full-type {
+            font-size: 14px;
+            color: #7a6548;
+            margin-bottom: 8px;
+        }
+        .overlay-content .full-status {
+            display: inline-block;
+            padding: 2px 16px;
+            border-radius: 40px;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+        .overlay-content .full-image {
+            width: 100%;
+            max-height: 260px;
+            object-fit: contain;
+            border-radius: 16px;
+            background: #e8e0d5;
+            margin: 12px 0 16px;
+            border: 1px solid #d0c0aa;
+        }
+        .overlay-content .full-text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #2b241c;
+            margin: 12px 0;
+            white-space: pre-wrap;
+        }
+        .overlay-content .full-comment {
+            font-size: 14px;
+            color: #5f4a34;
+            border-top: 1px solid #d0c0aa;
+            padding-top: 14px;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        .overlay-content .meta {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+            font-size: 13px;
+            color: #7a6548;
+            border-top: 1px solid #e0d5c5;
+            padding-top: 14px;
+        }
+        .overlay-content .meta span {
+            background: #e8e0d5;
+            padding: 2px 12px;
+            border-radius: 40px;
+            transition: background 0.3s;
+        }
+        body.dark-theme .overlay-content .meta span {
+            background: #2b241c;
+            color: #b4916b;
+        }
+
+        /* Адаптив */
         @media (max-width: 600px) {
             .records-grid {
                 grid-template-columns: 1fr;
@@ -363,6 +499,14 @@
                 margin-left: 0;
                 text-align: center;
             }
+            .overlay-content {
+                padding: 20px;
+                max-height: 95vh;
+            }
+            .overlay-content .full-title {
+                font-size: 22px;
+                padding-right: 30px;
+            }
         }
     </style>
 </head>
@@ -374,7 +518,7 @@
         <div class="sub">«Мы не знаем всего. Мы записываем то, что видим. И надеемся, что следующая страница не станет последней.» — Мира Уэст</div>
     </header>
 
-    <!-- ===== ПАНЕЛЬ УПРАВЛЕНИЯ (поиск, фильтр по статусу, тема, счётчик) ===== -->
+    <!-- Панель управления -->
     <div class="controls-panel">
         <label>🔍 Поиск:
             <input type="text" id="searchInput" placeholder="Введите слово...">
@@ -393,7 +537,7 @@
         <span class="count" id="recordCount">Записей: 0</span>
     </div>
 
-    <!-- ===== ФИЛЬТР ПО ТИПУ ===== -->
+    <!-- Фильтр по типу -->
     <div class="toolbar" id="filterBar">
         <button class="active" data-filter="all">Все</button>
         <button data-filter="people">Люди</button>
@@ -414,9 +558,19 @@
     </footer>
 </div>
 
+<!-- ===== ОВЕРЛЕЙ (модальное окно) ===== -->
+<div class="overlay" id="overlay">
+    <div class="overlay-content" id="overlayContent">
+        <button class="close-btn" id="closeOverlay">✕</button>
+        <div id="overlayBody">
+            <!-- динамически заполняется из JS -->
+        </div>
+    </div>
+</div>
+
 <script>
     // ============================================================
-    // БАЗА ДАННЫХ (массив записей)
+    // БАЗА ДАННЫХ (массив записей) — полная копия
     // ============================================================
     const records = [
         // ---- ЛЮДИ ----
@@ -703,7 +857,7 @@
     ];
 
     // ============================================================
-    // ЛОГИКА ОТОБРАЖЕНИЯ С ФИЛЬТРАЦИЕЙ
+    // ЛОГИКА ФИЛЬТРАЦИИ (как была)
     // ============================================================
     const container = document.getElementById('recordsContainer');
     const filterButtons = document.querySelectorAll('#filterBar button');
@@ -717,11 +871,8 @@
 
     function getFilteredRecords() {
         return records.filter(rec => {
-            // Фильтр по типу
             if (currentTypeFilter !== 'all' && rec.type !== currentTypeFilter) return false;
-            // Фильтр по статусу
             if (currentStatus !== 'all' && rec.status !== currentStatus) return false;
-            // Поиск по заголовку и тексту
             if (currentSearch.trim() !== '') {
                 const lower = currentSearch.toLowerCase();
                 const titleMatch = rec.title.toLowerCase().includes(lower);
@@ -734,8 +885,6 @@
 
     function render() {
         const filtered = getFilteredRecords();
-
-        // Обновляем счётчик
         countSpan.textContent = `Записей: ${filtered.length}`;
 
         if (filtered.length === 0) {
@@ -761,7 +910,7 @@
             }
 
             return `
-                <div class="card">
+                <div class="card" data-id="${rec.id}">
                     <div class="title">${rec.title}</div>
                     <div class="type">${rec.type}</div>
                     <span class="status ${statusClass}">${statusLabel}</span>
@@ -771,33 +920,81 @@
                 </div>
             `;
         }).join('');
-    }
 
-    // Обновление при любых изменениях
-    function updateFilters() {
-        render();
-    }
-
-    // Фильтр по типу (кнопки)
-    filterButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            filterButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentTypeFilter = btn.dataset.filter;
-            updateFilters();
+        // Вешаем обработчик клика на каждую карточку
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('click', function() {
+                const id = parseInt(this.dataset.id);
+                const record = records.find(r => r.id === id);
+                if (record) openOverlay(record);
+            });
         });
+    }
+
+    // ============================================================
+    // ОВЕРЛЕЙ (модальное окно)
+    // ============================================================
+    const overlay = document.getElementById('overlay');
+    const overlayBody = document.getElementById('overlayBody');
+    const closeBtn = document.getElementById('closeOverlay');
+
+    function openOverlay(rec) {
+        const statusClass = rec.status || 'unknown';
+        const statusLabel = {
+            met: 'Встречено',
+            studied: 'Изучено',
+            danger: 'Опасно',
+            rumor: 'Слух',
+            unknown: 'Неизвестно'
+        }[statusClass] || statusClass;
+
+        const typeLabel = {
+            people: 'Люди',
+            locations: 'Локации',
+            anomalies: 'Аномалии',
+            factions: 'Фракции',
+            artifacts: 'Артефакты',
+            rituals: 'Ритуалы',
+            animals: 'Животные'
+        }[rec.type] || rec.type;
+
+        let imgHtml = '';
+        if (rec.image) {
+            imgHtml = `<img src="${rec.image}" alt="${rec.title}" class="full-image">`;
+        }
+
+        overlayBody.innerHTML = `
+            <div class="full-title">${rec.title}</div>
+            <div class="full-type">${typeLabel}</div>
+            <div class="full-status status ${statusClass}">${statusLabel}</div>
+            ${imgHtml}
+            <div class="full-text">${rec.text}</div>
+            ${rec.comment ? `<div class="full-comment">${rec.comment}</div>` : ''}
+            <div class="meta">
+                <span>📌 ID: ${rec.id}</span>
+                <span>📁 Тип: ${typeLabel}</span>
+                <span>📊 Статус: ${statusLabel}</span>
+            </div>
+        `;
+
+        overlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeOverlayFn() {
+        overlay.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    // Закрытие по клику на крестик или фон
+    closeBtn.addEventListener('click', closeOverlayFn);
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closeOverlayFn();
     });
 
-    // Поиск
-    searchInput.addEventListener('input', (e) => {
-        currentSearch = e.target.value;
-        updateFilters();
-    });
-
-    // Фильтр по статусу
-    statusSelect.addEventListener('change', (e) => {
-        currentStatus = e.target.value;
-        updateFilters();
+    // Закрытие по Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeOverlayFn();
     });
 
     // ============================================================
@@ -807,7 +1004,6 @@
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const savedTheme = localStorage.getItem('rift-theme');
 
-    // Если сохранено, применяем, иначе используем системные настройки
     if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
         document.body.classList.add('dark-theme');
     }
@@ -819,8 +1015,32 @@
     });
 
     // ============================================================
-    // СТАРТОВЫЙ РЕНДЕР
+    // ОБНОВЛЕНИЕ ФИЛЬТРОВ
     // ============================================================
+    function updateFilters() {
+        render();
+    }
+
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentTypeFilter = btn.dataset.filter;
+            updateFilters();
+        });
+    });
+
+    searchInput.addEventListener('input', (e) => {
+        currentSearch = e.target.value;
+        updateFilters();
+    });
+
+    statusSelect.addEventListener('change', (e) => {
+        currentStatus = e.target.value;
+        updateFilters();
+    });
+
+    // Стартовый рендер
     render();
 </script>
 </body>
