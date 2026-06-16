@@ -11,65 +11,213 @@
             box-sizing: border-box;
         }
 
+        /* ========== СВЕТЛАЯ ТЕМА (по умолчанию) ========== */
         body {
-            background: #1b1712;
+            background: #e8e0d5;
             font-family: 'Courier New', 'Courier', monospace;
-            color: #ead9c6;
+            color: #2b241c;
             padding: 20px;
+            transition: background 0.3s, color 0.3s;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background: #2a241e;
+            background: #f5efe8;
             border-radius: 28px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             overflow: hidden;
-            border: 1px solid #5e4b36;
+            border: 1px solid #b8a68b;
+            transition: background 0.3s, border-color 0.3s;
         }
 
         header {
-            background: #1f1813;
+            background: #dcd0c0;
             padding: 20px 30px;
             border-bottom: 2px solid #b97f44;
+            transition: background 0.3s;
         }
         header h1 {
-            color: #f5e3c4;
+            color: #3d2e1d;
             font-size: 28px;
             letter-spacing: 3px;
             font-weight: normal;
         }
         header p {
-            color: #b4916b;
+            color: #5f4a34;
             font-size: 13px;
             margin-top: 5px;
         }
         header .sub {
             font-style: italic;
             font-size: 12px;
-            color: #9b7a58;
-            border-top: 1px dashed #4f3e2a;
+            color: #7a6548;
+            border-top: 1px dashed #b8a68b;
             padding-top: 10px;
             margin-top: 10px;
         }
 
-        .toolbar {
+        /* ===== ТЁМНАЯ ТЕМА (класс на body) ===== */
+        body.dark-theme {
+            background: #1b1712;
+            color: #ead9c6;
+        }
+        body.dark-theme .container {
+            background: #2a241e;
+            border-color: #5e4b36;
+        }
+        body.dark-theme header {
+            background: #1f1813;
+            border-bottom-color: #b97f44;
+        }
+        body.dark-theme header h1 {
+            color: #f5e3c4;
+        }
+        body.dark-theme header p {
+            color: #b4916b;
+        }
+        body.dark-theme header .sub {
+            color: #9b7a58;
+            border-color: #4f3e2a;
+        }
+        body.dark-theme .toolbar {
+            background: #241f19;
+            border-color: #3f3224;
+        }
+        body.dark-theme .toolbar button {
+            background: #4d3826;
+            color: #f0debe;
+        }
+        body.dark-theme .toolbar button.active {
+            background: #b97f44;
+            color: #1f1710;
+        }
+        body.dark-theme .card {
+            background: #2b241c;
+            border-left-color: #b97f44;
+            color: #ead9c6;
+        }
+        body.dark-theme .card .title {
+            color: #f5e0bc;
+        }
+        body.dark-theme .card .type {
+            color: #b4916b;
+        }
+        body.dark-theme .card .text {
+            color: #d4c8b6;
+        }
+        body.dark-theme .card .comment {
+            color: #a58d72;
+            border-color: #3f3224;
+        }
+        body.dark-theme .card .image {
+            background: #3b3228;
+            border-color: #5f4a34;
+        }
+        body.dark-theme .card .image .placeholder {
+            color: #9f886b;
+        }
+        body.dark-theme .status.met { background: #3d5a3d; color: #b2d9b2; }
+        body.dark-theme .status.studied { background: #3d4d6b; color: #b2c9e0; }
+        body.dark-theme .status.danger { background: #6b3d3d; color: #f0b2b2; }
+        body.dark-theme .status.rumor { background: #5f4a3a; color: #d4b68a; }
+        body.dark-theme .status.unknown { background: #3a3a3a; color: #aaaaaa; }
+        body.dark-theme .controls-panel {
+            background: #1f1813;
+            border-color: #3f3224;
+        }
+        body.dark-theme .controls-panel input,
+        body.dark-theme .controls-panel select {
+            background: #2b241c;
+            color: #ead9c6;
+            border-color: #5e4b36;
+        }
+        body.dark-theme .controls-panel label {
+            color: #b4916b;
+        }
+        body.dark-theme .footer {
+            background: #15100b;
+            color: #8a7357;
+            border-color: #3c3022;
+        }
+
+        /* ===== ПАНЕЛЬ УПРАВЛЕНИЯ ===== */
+        .controls-panel {
+            background: #dcd0c0;
+            padding: 12px 20px;
+            border-bottom: 1px solid #b8a68b;
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            background: #241f19;
-            padding: 15px 20px;
-            border-bottom: 1px solid #3f3224;
+            gap: 12px 20px;
+            align-items: center;
+            transition: background 0.3s, border-color 0.3s;
         }
-        .toolbar button {
+        .controls-panel label {
+            font-size: 13px;
+            color: #3d2e1d;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .controls-panel input,
+        .controls-panel select {
+            background: #f5efe8;
+            border: 1px solid #b8a68b;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: #2b241c;
+            transition: 0.2s;
+        }
+        .controls-panel input:focus,
+        .controls-panel select:focus {
+            outline: none;
+            border-color: #b97f44;
+        }
+        .controls-panel .count {
+            margin-left: auto;
+            font-size: 13px;
+            color: #5f4a34;
+        }
+        .theme-toggle {
             background: #4d3826;
             border: none;
             color: #f0debe;
-            padding: 6px 18px;
+            padding: 4px 14px;
             border-radius: 40px;
             font-family: monospace;
-            font-size: 14px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .theme-toggle:hover {
+            background: #785e3f;
+        }
+        body.dark-theme .theme-toggle {
+            background: #b97f44;
+            color: #1f1710;
+        }
+
+        /* ===== ФИЛЬТР ПО ТИПУ ===== */
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            background: #dcd0c0;
+            padding: 10px 20px;
+            border-bottom: 1px solid #b8a68b;
+            transition: background 0.3s, border-color 0.3s;
+        }
+        .toolbar button {
+            background: #c4b49e;
+            border: none;
+            color: #2b241c;
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-family: monospace;
+            font-size: 13px;
             cursor: pointer;
             transition: 0.2s;
         }
@@ -79,9 +227,25 @@
             font-weight: bold;
         }
         .toolbar button:hover {
+            background: #a58d72;
+        }
+        body.dark-theme .toolbar {
+            background: #241f19;
+            border-color: #3f3224;
+        }
+        body.dark-theme .toolbar button {
+            background: #4d3826;
+            color: #f0debe;
+        }
+        body.dark-theme .toolbar button.active {
+            background: #b97f44;
+            color: #1f1710;
+        }
+        body.dark-theme .toolbar button:hover {
             background: #785e3f;
         }
 
+        /* ===== СЕТКА КАРТОЧЕК ===== */
         .records-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -90,14 +254,15 @@
         }
 
         .card {
-            background: #2b241c;
+            background: #ffffff;
             border-left: 4px solid #b97f44;
             border-radius: 16px;
             padding: 18px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
             transition: 0.2s;
             display: flex;
             flex-direction: column;
+            color: #2b241c;
         }
         .card:hover {
             transform: scale(1.01);
@@ -106,12 +271,12 @@
         .card .title {
             font-size: 18px;
             font-weight: bold;
-            color: #f5e0bc;
+            color: #3d2e1d;
             margin-bottom: 5px;
         }
         .card .type {
             font-size: 12px;
-            color: #b4916b;
+            color: #7a6548;
             margin-bottom: 8px;
         }
         .card .status {
@@ -119,28 +284,28 @@
             display: inline-block;
             padding: 2px 10px;
             border-radius: 40px;
-            background: #4d3826;
-            color: #d4b68a;
+            background: #e0d5c5;
+            color: #3d2e1d;
             margin-bottom: 10px;
             align-self: flex-start;
         }
-        .status.met { background: #3d5a3d; color: #b2d9b2; }
-        .status.studied { background: #3d4d6b; color: #b2c9e0; }
-        .status.danger { background: #6b3d3d; color: #f0b2b2; }
-        .status.rumor { background: #5f4a3a; color: #d4b68a; }
-        .status.unknown { background: #3a3a3a; color: #aaaaaa; }
+        .status.met { background: #b8d9b8; color: #1f4a1f; }
+        .status.studied { background: #b8c9e0; color: #1f3a5a; }
+        .status.danger { background: #e0b8b8; color: #5a1f1f; }
+        .status.rumor { background: #d4c8b0; color: #5a4a2a; }
+        .status.unknown { background: #d0d0d0; color: #555; }
 
         .card .text {
             font-size: 13px;
             line-height: 1.4;
-            color: #d4c8b6;
+            color: #3d3228;
             margin: 8px 0 12px;
             flex: 1;
         }
         .card .comment {
             font-size: 12px;
-            color: #a58d72;
-            border-top: 1px solid #3f3224;
+            color: #7a6548;
+            border-top: 1px solid #e0d5c5;
             padding-top: 10px;
             margin-top: 5px;
             font-style: italic;
@@ -148,18 +313,17 @@
         .card .image {
             width: 100%;
             height: 120px;
-            background: #3b3228;
+            background: #e8e0d5;
             border-radius: 10px;
             margin: 8px 0 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #7a6548;
+            color: #9f886b;
             font-size: 12px;
             background-size: cover;
             background-position: center;
-            background-color: #2e261e;
-            border: 1px solid #5f4a34;
+            border: 1px solid #d0c0aa;
             overflow: hidden;
         }
         .card .image img {
@@ -171,13 +335,15 @@
             color: #9f886b;
         }
 
-        footer {
-            background: #15100b;
+        /* ===== ПОДВАЛ ===== */
+        .footer {
+            background: #dcd0c0;
             padding: 12px;
             text-align: center;
             font-size: 11px;
-            color: #8a7357;
-            border-top: 1px solid #3c3022;
+            color: #5f4a34;
+            border-top: 1px solid #b8a68b;
+            transition: background 0.3s, border-color 0.3s;
         }
         .footer-note {
             max-width: 900px;
@@ -189,8 +355,13 @@
                 grid-template-columns: 1fr;
                 padding: 15px;
             }
-            header h1 {
-                font-size: 22px;
+            .controls-panel {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .controls-panel .count {
+                margin-left: 0;
+                text-align: center;
             }
         }
     </style>
@@ -203,8 +374,28 @@
         <div class="sub">«Мы не знаем всего. Мы записываем то, что видим. И надеемся, что следующая страница не станет последней.» — Мира Уэст</div>
     </header>
 
+    <!-- ===== ПАНЕЛЬ УПРАВЛЕНИЯ (поиск, фильтр по статусу, тема, счётчик) ===== -->
+    <div class="controls-panel">
+        <label>🔍 Поиск:
+            <input type="text" id="searchInput" placeholder="Введите слово...">
+        </label>
+        <label>📌 Статус:
+            <select id="statusFilter">
+                <option value="all">Все</option>
+                <option value="met">Встречено</option>
+                <option value="studied">Изучено</option>
+                <option value="danger">Опасно</option>
+                <option value="rumor">Слух</option>
+                <option value="unknown">Неизвестно</option>
+            </select>
+        </label>
+        <button class="theme-toggle" id="themeToggle">🌓 Тема</button>
+        <span class="count" id="recordCount">Записей: 0</span>
+    </div>
+
+    <!-- ===== ФИЛЬТР ПО ТИПУ ===== -->
     <div class="toolbar" id="filterBar">
-        <button class="active" data-filter="all">Все записи</button>
+        <button class="active" data-filter="all">Все</button>
         <button data-filter="people">Люди</button>
         <button data-filter="locations">Локации</button>
         <button data-filter="anomalies">Аномалии</button>
@@ -218,15 +409,17 @@
         <!-- записи будут вставлены сюда -->
     </div>
 
-    <footer>
+    <footer class="footer">
         <div class="footer-note">Записи появляются по мере встречи героев с новыми явлениями.</div>
     </footer>
 </div>
 
 <script>
-    // ---------- БАЗА ДАННЫХ (массив записей) ----------
+    // ============================================================
+    // БАЗА ДАННЫХ (массив записей)
+    // ============================================================
     const records = [
-        // ===== ЛЮДИ =====
+        // ---- ЛЮДИ ----
         {
             id: 1,
             title: "Чистые",
@@ -300,7 +493,7 @@
             comment: "Корб: «Толпа Глубоких Пустых — это стихийное бедствие. Не беги. Просто уходи, если успеешь.»"
         },
 
-        // ===== ЛОКАЦИИ =====
+        // ---- ЛОКАЦИИ ----
         {
             id: 10,
             title: "«Предел»",
@@ -365,7 +558,7 @@
             comment: "Корб: «Туда можно войти. Но не факт, что выйдешь.»"
         },
 
-        // ===== АНОМАЛИИ =====
+        // ---- АНОМАЛИИ ----
         {
             id: 20,
             title: "Стеклянный дождь",
@@ -394,7 +587,7 @@
             comment: "Корб: «Говори вслух. Описывай, что видишь. Не дай тишине победить.»"
         },
 
-        // ===== ФРАКЦИИ =====
+        // ---- ФРАКЦИИ ----
         {
             id: 30,
             title: "Синхронисты (Восс)",
@@ -423,7 +616,7 @@
             comment: "Корб: «Он прав, что некоторые не спасти. Вопрос — кто решает, кого спасать?»"
         },
 
-        // ===== АРТЕФАКТЫ =====
+        // ---- АРТЕФАКТЫ ----
         {
             id: 40,
             title: "Альбом Миры",
@@ -443,7 +636,7 @@
             comment: "Корб: «Время — единственное, что нельзя подделать.»"
         },
 
-        // ===== ЖИВОТНЫЕ =====
+        // ---- ЖИВОТНЫЕ ----
         {
             id: 50,
             title: "Шрапнель (пёс Корба)",
@@ -509,19 +702,44 @@
         }
     ];
 
-    // ---------- ЛОГИКА ОТОБРАЖЕНИЯ ----------
+    // ============================================================
+    // ЛОГИКА ОТОБРАЖЕНИЯ С ФИЛЬТРАЦИЕЙ
+    // ============================================================
     const container = document.getElementById('recordsContainer');
     const filterButtons = document.querySelectorAll('#filterBar button');
+    const searchInput = document.getElementById('searchInput');
+    const statusSelect = document.getElementById('statusFilter');
+    const countSpan = document.getElementById('recordCount');
 
-    let currentFilter = 'all';
+    let currentTypeFilter = 'all';
+    let currentSearch = '';
+    let currentStatus = 'all';
 
-    function render(filter = 'all') {
-        const filtered = filter === 'all'
-            ? records
-            : records.filter(r => r.type === filter);
+    function getFilteredRecords() {
+        return records.filter(rec => {
+            // Фильтр по типу
+            if (currentTypeFilter !== 'all' && rec.type !== currentTypeFilter) return false;
+            // Фильтр по статусу
+            if (currentStatus !== 'all' && rec.status !== currentStatus) return false;
+            // Поиск по заголовку и тексту
+            if (currentSearch.trim() !== '') {
+                const lower = currentSearch.toLowerCase();
+                const titleMatch = rec.title.toLowerCase().includes(lower);
+                const textMatch = rec.text.toLowerCase().includes(lower);
+                if (!titleMatch && !textMatch) return false;
+            }
+            return true;
+        });
+    }
+
+    function render() {
+        const filtered = getFilteredRecords();
+
+        // Обновляем счётчик
+        countSpan.textContent = `Записей: ${filtered.length}`;
 
         if (filtered.length === 0) {
-            container.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding:40px; color:#9b7a58;">Нет записей в этом разделе. Возвращайся позже.</div>`;
+            container.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding:40px; color:#9b7a58;">Нет записей, соответствующих фильтрам.</div>`;
             return;
         }
 
@@ -555,18 +773,55 @@
         }).join('');
     }
 
-    // Фильтрация по кнопкам
+    // Обновление при любых изменениях
+    function updateFilters() {
+        render();
+    }
+
+    // Фильтр по типу (кнопки)
     filterButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             filterButtons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            const filter = btn.dataset.filter;
-            currentFilter = filter;
-            render(filter);
+            currentTypeFilter = btn.dataset.filter;
+            updateFilters();
         });
     });
 
-    render('all');
+    // Поиск
+    searchInput.addEventListener('input', (e) => {
+        currentSearch = e.target.value;
+        updateFilters();
+    });
+
+    // Фильтр по статусу
+    statusSelect.addEventListener('change', (e) => {
+        currentStatus = e.target.value;
+        updateFilters();
+    });
+
+    // ============================================================
+    // ТЁМНАЯ ТЕМА (сохранение в localStorage)
+    // ============================================================
+    const themeToggle = document.getElementById('themeToggle');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const savedTheme = localStorage.getItem('rift-theme');
+
+    // Если сохранено, применяем, иначе используем системные настройки
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+        document.body.classList.add('dark-theme');
+    }
+
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-theme');
+        const isDark = document.body.classList.contains('dark-theme');
+        localStorage.setItem('rift-theme', isDark ? 'dark' : 'light');
+    });
+
+    // ============================================================
+    // СТАРТОВЫЙ РЕНДЕР
+    // ============================================================
+    render();
 </script>
 </body>
 </html>
