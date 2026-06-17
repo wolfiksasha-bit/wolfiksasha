@@ -1261,6 +1261,16 @@
         });
 
         render();
+
+        // Обработчики для маркеров на карте
+document.querySelectorAll('#mapContainer div[data-id]').forEach(marker => {
+    marker.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const id = parseInt(this.dataset.id);
+        const record = records.find(r => r.id === id);
+        if (record) openOverlay(record);
+    });
+});
     </script>
 </body>
 </html>
