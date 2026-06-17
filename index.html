@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Архив Предела — справочник мира «Разрыв»</title>
+    <title>Архив Предела — карта и справочник</title>
     <style>
         /* ===== ВСЕ СТИЛИ КАК В РАБОЧЕЙ ВЕРСИИ (без Leaflet) ===== */
         * {
@@ -188,7 +188,7 @@
             color: #e8ddd0;
         }
         body.dark-theme .overlay-content .full-comment {
-            color: #d4c0b0;
+            color: #f0e8d8;
             border-color: #5a4a36;
         }
         body.dark-theme .overlay-content .extra-title {
@@ -414,8 +414,9 @@
             display: none;
             text-align: center;
             padding: 20px;
-            background: #e8e0d5;
+            background: #f5efe8;
             border-radius: 0 0 28px 28px;
+            border-top: 1px solid #b8a68b;
         }
         #mapContainer.visible {
             display: block;
@@ -431,7 +432,7 @@
             color: #7a6548;
             font-size: 12px;
             padding: 10px;
-            background: #e8e0d5;
+            background: #f5efe8;
             border-top: 1px solid #b8a68b;
         }
         .footer {
@@ -1205,7 +1206,7 @@
         });
 
         // ============================================================
-        // ПЕРЕКЛЮЧЕНИЕ КАРТЫ (просто картинка)
+        // ПЕРЕКЛЮЧЕНИЕ КАРТЫ
         // ============================================================
         document.getElementById('mapToggle').addEventListener('click', function() {
             const mapDiv = document.getElementById('mapContainer');
