@@ -587,16 +587,62 @@
                 transform: scale(1);
             }
         }
-       .overlay-content {
+       /* ===== МОДАЛЬНОЕ ОКНО С КАСТОМНЫМ СКРОЛЛОМ ===== */
+
+/* Основной контейнер модального окна */
+.overlay-content {
     background: #f5efe8;
     border: 2px solid #b97f44;
     border-radius: 28px;
     max-width: 800px;
     width: 100%;
+    max-height: 80vh;          /* ← ограничиваем высоту, чтобы появился скролл */
+    overflow-y: auto;          /* ← включаем вертикальный скролл */
     padding: 30px 35px;
     position: relative;
     box-shadow: 0 30px 60px rgba(0,0,0,0.4);
     transition: background 0.3s, border-color 0.3s;
+}
+
+/* ----- СТИЛИЗАЦИЯ СКРОЛЛБАРА (WebKit) ----- */
+
+/* Ширина полосы и фон */
+.overlay-content::-webkit-scrollbar {
+    width: 6px;               /* делаем узким */
+}
+/* Дорожка (трек) */
+.overlay-content::-webkit-scrollbar-track {
+    background: #e8e0d5;      /* светлый фон для светлой темы */
+    border-radius: 10px;
+    margin: 10px 0;
+}
+/* Ползунок */
+.overlay-content::-webkit-scrollbar-thumb {
+    background: #b97f44;      /* основной цвет */
+    border-radius: 10px;
+}
+.overlay-content::-webkit-scrollbar-thumb:hover {
+    background: #a06a3a;      /* чуть темнее при наведении */
+}
+
+/* ----- ТЁМНАЯ ТЕМА ----- */
+body.dark-theme .overlay-content::-webkit-scrollbar-track {
+    background: #3a3228;      /* тёмный фон */
+}
+body.dark-theme .overlay-content::-webkit-scrollbar-thumb {
+    background: #c9a87a;      /* золотистый */
+}
+body.dark-theme .overlay-content::-webkit-scrollbar-thumb:hover {
+    background: #b8976a;
+}
+
+/* ----- ДЛЯ FIREFOX ----- */
+.overlay-content {
+    scrollbar-width: thin;          /* тонкая полоса */
+    scrollbar-color: #b97f44 #e8e0d5;  /* ползунок и трек */
+}
+body.dark-theme .overlay-content {
+    scrollbar-color: #c9a87a #3a3228;
 }
         .overlay-content .close-btn {
             position: absolute;
