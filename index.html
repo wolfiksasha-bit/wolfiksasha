@@ -656,17 +656,29 @@
         <div id="recordsContainer" class="records-grid"></div>
 
         <div id="mapContainer">
-            <img src="https://i.ibb.co/S7JX3B9F/y-Hmd-Kj-RYXN2w-FOq-Gu51-DH-d1-Kl-HB7-Suy2pnw-B4yo65-FT0-NI4q-X21f-HQ6r-DIY5-A2c-Csbssua-Zs-Ph-D-Ik-QD2-Xyy.jpg" alt="Карта мира" usemap="#riftmap" style="max-width:100%; height:auto; border-radius:16px; border:2px solid #b97f44;">
-            <map name="riftmap">
-                <area shape="circle" coords="430,760" href="#" title="«Предел»" alt="Предел">
-                <area shape="circle" coords="540,590" href="#" title="Кедровый Лог" alt="Кедровый Лог">
-                <area shape="circle" coords="210,670" href="#" title="Кровавый лес" alt="Кровавый лес">
-                <area shape="circle" coords="790,290" href="#" title="Маяк Чистых" alt="Маяк">
-                <area shape="circle" coords="770,850" href="#" title="Форт Хоука" alt="Форт Хоука">
-                <area shape="circle" coords="470,1060" href="#" title="«Эмбер»" alt="Эмбер">
-                <area shape="circle" coords="260,870" href="#" title="Узел (горный)" alt="Узел">
-            </map>
+    <div style="position: relative; display: inline-block; width: 100%; max-width: 100%;">
+        <img src="https://i.ibb.co/S7JX3B9F/y-Hmd-Kj-RYXN2w-FOq-Gu51-DH-d1-Kl-HB7-Suy2pnw-B4yo65-FT0-NI4q-X21f-HQ6r-DIY5-A2c-Csbssua-Zs-Ph-D-Ik-QD2-Xyy.jpg" alt="Карта мира" usemap="#riftmap" style="width:100%; height:auto; border-radius:16px; border:2px solid #b97f44; display:block;">
+        <map name="riftmap">
+            <area shape="circle" coords="430,760" href="#" title="«Предел»" alt="Предел">
+            <area shape="circle" coords="540,590" href="#" title="Кедровый Лог" alt="Кедровый Лог">
+            <area shape="circle" coords="210,670" href="#" title="Кровавый лес" alt="Кровавый лес">
+            <area shape="circle" coords="790,290" href="#" title="Маяк Чистых" alt="Маяк">
+            <area shape="circle" coords="770,850" href="#" title="Форт Хоука" alt="Форт Хоука">
+            <area shape="circle" coords="470,1060" href="#" title="«Эмбер»" alt="Эмбер">
+            <area shape="circle" coords="260,870" href="#" title="Узел (горный)" alt="Узел">
+        </map>
+        <!-- ВИДИМЫЕ МАРКЕРЫ поверх картинки -->
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;">
+            <div style="position: absolute; left: 43%; top: 76%; width: 20px; height: 20px; background: #b97f44; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="«Предел»"></div>
+            <div style="position: absolute; left: 54%; top: 59%; width: 20px; height: 20px; background: #b97f44; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="Кедровый Лог"></div>
+            <div style="position: absolute; left: 21%; top: 67%; width: 20px; height: 20px; background: #b35e3a; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="Кровавый лес"></div>
+            <div style="position: absolute; left: 79%; top: 29%; width: 20px; height: 20px; background: #8b6b48; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="Маяк Чистых"></div>
+            <div style="position: absolute; left: 77%; top: 85%; width: 20px; height: 20px; background: #b35e3a; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="Форт Хоука"></div>
+            <div style="position: absolute; left: 47%; top: 106%; width: 20px; height: 20px; background: #b97f44; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="«Эмбер»"></div>
+            <div style="position: absolute; left: 26%; top: 87%; width: 20px; height: 20px; background: #5f3e28; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="Узел (горный)"></div>
         </div>
+    </div>
+</div>
         <div class="map-note" id="mapNote">📍 Наведи на маркер — узнай название.</div>
 
         <footer class="footer">
