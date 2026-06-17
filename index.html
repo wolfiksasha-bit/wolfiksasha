@@ -4,16 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Архив Предела — карта и справочник</title>
-    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        /* ===== ОСНОВНЫЕ СТИЛИ (без изменений) ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             background: #e8e0d5;
             font-family: 'Courier New', 'Courier', monospace;
@@ -21,7 +18,6 @@
             padding: 20px;
             transition: background 0.3s, color 0.3s;
         }
-
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -32,7 +28,6 @@
             border: 1px solid #b8a68b;
             transition: background 0.3s, border-color 0.3s;
         }
-
         header {
             background: #dcd0c0;
             padding: 20px 30px;
@@ -58,8 +53,6 @@
             padding-top: 10px;
             margin-top: 10px;
         }
-
-        /* ===== УЛУЧШЕННАЯ ТЁМНАЯ ТЕМА (высокая контрастность) ===== */
         body.dark-theme {
             background: #1b1712;
             color: #f0ebe0;
@@ -123,8 +116,6 @@
             color: #d0b898;
             border-top-color: #4f3f2e;
         }
-
-        /* ===== КАРТОЧКИ В ТЁМНОЙ ТЕМЕ ===== */
         body.dark-theme .card {
             background: #3a3228;
             border-left-color: #c9a87a;
@@ -150,15 +141,26 @@
         body.dark-theme .card .image .placeholder {
             color: #b09880;
         }
-
-        /* ===== СТАТУСЫ В ТЁМНОЙ ТЕМЕ ===== */
-        body.dark-theme .status.met { background: #4a6a3a; color: #d4f0c0; }
-        body.dark-theme .status.studied { background: #3a5a7a; color: #c0ddf0; }
-        body.dark-theme .status.danger { background: #7a3a3a; color: #f0c0c0; }
-        body.dark-theme .status.rumor { background: #5a4a2a; color: #e0d0b0; }
-        body.dark-theme .status.unknown { background: #4a4a4a; color: #d0d0d0; }
-
-        /* ===== МОДАЛЬНОЕ ОКНО В ТЁМНОЙ ТЕМЕ (высокий контраст) ===== */
+        body.dark-theme .status.met {
+            background: #4a6a3a;
+            color: #d4f0c0;
+        }
+        body.dark-theme .status.studied {
+            background: #3a5a7a;
+            color: #c0ddf0;
+        }
+        body.dark-theme .status.danger {
+            background: #7a3a3a;
+            color: #f0c0c0;
+        }
+        body.dark-theme .status.rumor {
+            background: #5a4a2a;
+            color: #e0d0b0;
+        }
+        body.dark-theme .status.unknown {
+            background: #4a4a4a;
+            color: #d0d0d0;
+        }
         body.dark-theme .overlay {
             background: rgba(0, 0, 0, 0.85);
         }
@@ -186,7 +188,7 @@
             color: #e8ddd0;
         }
         body.dark-theme .overlay-content .full-comment {
-            color: #cfc0ae;
+            color: #f0e8d8;
             border-color: #5a4a36;
         }
         body.dark-theme .overlay-content .extra-title {
@@ -215,8 +217,21 @@
             background: #4a3a2a;
             border-color: #6f5a42;
         }
-
-        /* ===== ОБЩИЕ СТИЛИ (без изменений) ===== */
+        .custom-tooltip {
+            background: #f5efe8;
+            border: 1px solid #b97f44;
+            border-radius: 12px;
+            padding: 6px 14px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: #2b241c;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        body.dark-theme .custom-tooltip {
+            background: #3a3228;
+            color: #f0ebe0;
+            border-color: #c9a87a;
+        }
         .controls-panel {
             background: #dcd0c0;
             padding: 12px 20px;
@@ -276,7 +291,6 @@
             background: #c9a87a;
             color: #1f1710;
         }
-
         .toolbar {
             display: flex;
             flex-wrap: wrap;
@@ -306,14 +320,12 @@
         .toolbar button:hover {
             background: #a58d72;
         }
-
         .records-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 20px;
             padding: 25px;
         }
-
         .card {
             background: #ffffff;
             border-left: 4px solid #b97f44;
@@ -352,12 +364,26 @@
             margin-bottom: 10px;
             align-self: flex-start;
         }
-        .status.met { background: #b8d9b8; color: #1f4a1f; }
-        .status.studied { background: #b8c9e0; color: #1f3a5a; }
-        .status.danger { background: #e0b8b8; color: #5a1f1f; }
-        .status.rumor { background: #d4c8b0; color: #5a4a2a; }
-        .status.unknown { background: #d0d0d0; color: #555; }
-
+        .status.met {
+            background: #b8d9b8;
+            color: #1f4a1f;
+        }
+        .status.studied {
+            background: #b8c9e0;
+            color: #1f3a5a;
+        }
+        .status.danger {
+            background: #e0b8b8;
+            color: #5a1f1f;
+        }
+        .status.rumor {
+            background: #d4c8b0;
+            color: #5a4a2a;
+        }
+        .status.unknown {
+            background: #d0d0d0;
+            color: #555;
+        }
         .card .text {
             font-size: 13px;
             line-height: 1.4;
@@ -397,7 +423,6 @@
         .card .image .placeholder {
             color: #9f886b;
         }
-
         #mapContainer {
             height: 650px;
             width: 100%;
@@ -417,7 +442,6 @@
             background: #e8e0d5;
             border-top: 1px solid #b8a68b;
         }
-
         .footer {
             background: #dcd0c0;
             padding: 12px;
@@ -427,8 +451,6 @@
             border-top: 1px solid #b8a68b;
             transition: background 0.3s, border-color 0.3s;
         }
-
-        /* ===== МОДАЛЬНОЕ ОКНО (общие стили) ===== */
         .overlay {
             position: fixed;
             top: 0;
@@ -448,8 +470,14 @@
             display: flex;
         }
         @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.96); }
-            to { opacity: 1; transform: scale(1); }
+            from {
+                opacity: 0;
+                transform: scale(0.96);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
         .overlay-content {
             background: #f5efe8;
@@ -569,7 +597,6 @@
             border-radius: 40px;
             transition: background 0.3s;
         }
-
         @media (max-width: 600px) {
             .records-grid {
                 grid-template-columns: 1fr;
@@ -595,69 +622,63 @@
     </style>
 </head>
 <body>
-<div class="container">
-    <header>
-        <h1>✦ АРХИВ ПРЕДЕЛА ✦</h1>
-        <p>Интерактивный справочник мира «Разрыв»</p>
-        <div class="sub">«Мы не знаем всего. Мы записываем то, что видим. И надеемся, что следующая страница не станет последней.» — Мира Уэст</div>
-    </header>
+    <div class="container">
+        <header>
+            <h1>✦ АРХИВ ПРЕДЕЛА ✦</h1>
+            <p>Интерактивный справочник мира «Разрыв»</p>
+            <div class="sub">«Мы не знаем всего. Мы записываем то, что видим. И надеемся, что следующая страница не станет последней.» — Мира Уэст</div>
+        </header>
 
-    <div class="controls-panel">
-        <label>🔍 Поиск:
-            <input type="text" id="searchInput" placeholder="Введите слово...">
-        </label>
-        <label>📌 Статус:
-            <select id="statusFilter">
-                <option value="all">Все</option>
-                <option value="met">Встречено</option>
-                <option value="studied">Изучено</option>
-                <option value="danger">Опасно</option>
-                <option value="rumor">Слух</option>
-                <option value="unknown">Неизвестно</option>
-            </select>
-        </label>
-        <button class="map-toggle" id="mapToggle">🗺️ Карта</button>
-        <button class="theme-toggle" id="themeToggle">🌓 Тема</button>
-        <span class="count" id="recordCount">Записей: 0</span>
+        <div class="controls-panel">
+            <label>🔍 Поиск:
+                <input type="text" id="searchInput" placeholder="Введите слово...">
+            </label>
+            <label>📌 Статус:
+                <select id="statusFilter">
+                    <option value="all">Все</option>
+                    <option value="met">Встречено</option>
+                    <option value="studied">Изучено</option>
+                    <option value="danger">Опасно</option>
+                    <option value="rumor">Слух</option>
+                    <option value="unknown">Неизвестно</option>
+                </select>
+            </label>
+            <button class="map-toggle" id="mapToggle">🗺️ Карта</button>
+            <button class="theme-toggle" id="themeToggle">🌓 Тема</button>
+            <span class="count" id="recordCount">Записей: 0</span>
+        </div>
+
+        <div class="toolbar" id="filterBar">
+            <button class="active" data-filter="all">Все</button>
+            <button data-filter="people">Люди</button>
+            <button data-filter="locations">Локации</button>
+            <button data-filter="anomalies">Аномалии</button>
+            <button data-filter="factions">Фракции</button>
+            <button data-filter="artifacts">Артефакты</button>
+            <button data-filter="rituals">Ритуалы</button>
+            <button data-filter="animals">Животные</button>
+        </div>
+
+        <div id="recordsContainer" class="records-grid"></div>
+        <div id="mapContainer"></div>
+        <div class="map-note" id="mapNote">📍 Наведи на маркер — узнай название. Кликни — откроется запись.</div>
+
+        <footer class="footer">
+            <div class="footer-note">Записи появляются по мере встречи героев с новыми явлениями.</div>
+        </footer>
     </div>
 
-    <div class="toolbar" id="filterBar">
-        <button class="active" data-filter="all">Все</button>
-        <button data-filter="people">Люди</button>
-        <button data-filter="locations">Локации</button>
-        <button data-filter="anomalies">Аномалии</button>
-        <button data-filter="factions">Фракции</button>
-        <button data-filter="artifacts">Артефакты</button>
-        <button data-filter="rituals">Ритуалы</button>
-        <button data-filter="animals">Животные</button>
+    <div class="overlay" id="overlay">
+        <div class="overlay-content" id="overlayContent">
+            <button class="close-btn" id="closeOverlay">✕</button>
+            <div id="overlayBody"></div>
+        </div>
     </div>
 
-    <div id="recordsContainer" class="records-grid"></div>
-
-    <div id="mapContainer"></div>
-    <div class="map-note" id="mapNote">📍 Кликните по маркеру, чтобы открыть запись локации</div>
-
-    <footer class="footer">
-        <div class="footer-note">Записи появляются по мере встречи героев с новыми явлениями.</div>
-    </footer>
-</div>
-
-<!-- Модальное окно -->
-<div class="overlay" id="overlay">
-    <div class="overlay-content" id="overlayContent">
-        <button class="close-btn" id="closeOverlay">✕</button>
-        <div id="overlayBody"></div>
-    </div>
-</div>
-
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-    // ============================================================
-    // БАЗА ДАННЫХ (та же, что была, плюс поле comment)
-    // ============================================================
-    const records = [
-        // ---- ЛЮДИ ----
-        {
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+    </script>
+    <script>
+        const records = [{
             id: 1,
             title: "Чистые",
             type: "people",
@@ -668,8 +689,7 @@
             extra: "Чистые часто становятся проводниками в опасных зонах, так как их восприятие не искажается. Однако их присутствие может вызывать зависть у обычных выживших.",
             relations: ["Синхронисты (Восс)", "Культ Забвения", "Обычные выжившие"],
             comment: "Корб: «Они — единственные, кто может подтвердить, что было до Разрыва. Поэтому их так ценят. И так боятся.»"
-        },
-        {
+        }, {
             id: 2,
             title: "Обычные выжившие",
             type: "people",
@@ -680,8 +700,7 @@
             extra: "Обычные выжившие — самая многочисленная группа. Они торгуют, строят поселения, охраняют караваны. Их главный враг — апатия.",
             relations: ["Чистые", "Потерянные", "Сшитые (стабильные)"],
             comment: "Рейн: «Мы все такие. Иногда я проверяю, помню ли своё имя. Это страшно, но привычно.»"
-        },
-        {
+        }, {
             id: 3,
             title: "Эхо (цикличные)",
             type: "people",
@@ -692,8 +711,7 @@
             extra: "Некоторые общины используют Эхо как «живые памятники» — они напоминают о прошлом, но их нельзя трогать.",
             relations: ["Потерянные"],
             comment: "Мира: «Я видела женщину, которая каждый вечер накрывала на стол для мужа, которого уже нет. Она не помнит, что он умер.»"
-        },
-        {
+        }, {
             id: 4,
             title: "Потерянные",
             type: "people",
@@ -704,8 +722,7 @@
             extra: "В поселениях за Потерянными наблюдают: если они начинают повторяться, их изолируют.",
             relations: ["Пустые (обычные)", "Эхо (цикличные)"],
             comment: "Корб: «Если заметил, что человек начал повторяться — изолируй. И дай ему якорь. Быстро.»"
-        },
-        {
+        }, {
             id: 5,
             title: "Сшитые (стабильные)",
             type: "people",
@@ -716,8 +733,7 @@
             extra: "Им трудно доверять, но они редко теряют контроль.",
             relations: ["Сшитые (глубокие)", "Обычные выжившие"],
             comment: "Анна: «Они не виноваты. Но я не подхожу близко. Слишком непредсказуемы.»"
-        },
-        {
+        }, {
             id: 6,
             title: "Сшитые (глубокие)",
             type: "people",
@@ -728,8 +744,7 @@
             extra: "В «Эмбере» их уничтожают без суда.",
             relations: ["Сшитые (стабильные)", "Пустые (обычные)"],
             comment: "Корб: «Таких не спасти. Только остановить.»"
-        },
-        {
+        }, {
             id: 7,
             title: "Пустые (обычные)",
             type: "people",
@@ -740,8 +755,7 @@
             extra: "Соль и вода могут временно отпугнуть их.",
             relations: ["Глубокие Пустые", "Потерянные"],
             comment: "Корб: «Укус почти всегда вызывает сепсис. Соль и вода — первые минуты. Потом — только чудо.»"
-        },
-        {
+        }, {
             id: 8,
             title: "Пустые (глубокие)",
             type: "people",
@@ -752,10 +766,7 @@
             extra: "Караваны обходят такие места за десятки километров.",
             relations: ["Обычные Пустые"],
             comment: "Корб: «Толпа Глубоких Пустых — это стихийное бедствие. Не беги. Просто уходи, если успеешь.»"
-        },
-
-        // ---- ЛОКАЦИИ ----
-        {
+        }, {
             id: 10,
             title: "«Предел»",
             type: "locations",
@@ -766,8 +777,7 @@
             extra: "Здесь живут Коул, Анна, Мира (позже), а также множество обычных выживших.",
             relations: ["«Эмбер»", "Форт Хоука"],
             comment: "Мира: «Здесь пахнет хлебом и страхом. Но люди улыбаются. Это странно.»"
-        },
-        {
+        }, {
             id: 11,
             title: "Кедровый Лог",
             type: "locations",
@@ -778,8 +788,7 @@
             extra: "Мира иногда возвращается туда в своих снах.",
             relations: ["Культ Забвения"],
             comment: "Мира: «Я не вернусь туда. Но иногда вижу его во сне.»"
-        },
-        {
+        }, {
             id: 12,
             title: "Кровавый лес",
             type: "locations",
@@ -790,20 +799,18 @@
             extra: "Говорят, что в центре леса есть место, где можно услышать голоса всех умерших.",
             relations: ["Узел (горный)"],
             comment: "Корб: «Не ходи без проводника. И без соли.»"
-        },
-        {
+        }, {
             id: 13,
             title: "Маяк Чистых",
             type: "locations",
             status: "studied",
-            image: "",
+            image: "https://upforme.ru/uploads/001c/a8/16/2/431632.png",
             text: "Каменный маяк на скалистом острове. Убежище Чистых. Изоляция, рыболовство, радиоузел. После нападения синхронистов почти опустел.",
             full_text: "Маяк был последним оплотом Чистых. Здесь они жили вдали от остального мира. Но Восс нашёл их, и теперь маяк стоит пустым, храня только воспоминания.",
             extra: "Ноа — единственный выживший, кто покинул маяк.",
             relations: ["Чистые", "Синхронисты (Восс)"],
             comment: "Ноа: «Я выжил. Но многие — нет.»"
-        },
-        {
+        }, {
             id: 14,
             title: "Форт Хоука",
             type: "locations",
@@ -814,8 +821,7 @@
             extra: "Жнец был его правой рукой, пока не перешёл на сторону героев.",
             relations: ["«Предел»", "Жнец (Тимми Росс)"],
             comment: "Корб: «Если не знаешь пароль — обходи стороной.»"
-        },
-        {
+        }, {
             id: 15,
             title: "«Эмбер»",
             type: "locations",
@@ -826,8 +832,7 @@
             extra: "Её сын Оливер пытался её переубедить, но безуспешно.",
             relations: ["«Предел»", "Оливер Крейн"],
             comment: "Оливер: «Там живёт моя мать. Она не та, кем была.»"
-        },
-        {
+        }, {
             id: 16,
             title: "Узел (горный)",
             type: "locations",
@@ -838,10 +843,7 @@
             extra: "Герои первой книги пробиваются сюда, чтобы остановить Восса.",
             relations: ["Синхронисты (Восс)", "Кровавый лес"],
             comment: "Корб: «Туда можно войти. Но не факт, что выйдешь.»"
-        },
-
-        // ---- АНОМАЛИИ ----
-        {
+        }, {
             id: 20,
             title: "Стеклянный дождь",
             type: "anomalies",
@@ -852,8 +854,7 @@
             extra: "Рейн получила шрам от такого дождя.",
             relations: ["Кровавый лес"],
             comment: "Рейн: «Я видела это. У меня до сих пор шрамы на руке.»"
-        },
-        {
+        }, {
             id: 21,
             title: "Горячий шёпот",
             type: "anomalies",
@@ -864,8 +865,7 @@
             extra: "Мира заметила, что её рисунки успокаивают огонь.",
             relations: ["Кровавый лес"],
             comment: "Мира: «Я рисовала пламя, и оно утихало. Не знаю, почему.»"
-        },
-        {
+        }, {
             id: 22,
             title: "Тихие трассы",
             type: "anomalies",
@@ -876,10 +876,7 @@
             extra: "Лайам Корран однажды записал тишину на диктофон.",
             relations: ["Трасса 101"],
             comment: "Корб: «Говори вслух. Описывай, что видишь. Не дай тишине победить.»"
-        },
-
-        // ---- ФРАКЦИИ ----
-        {
+        }, {
             id: 30,
             title: "Синхронисты (Восс)",
             type: "factions",
@@ -890,8 +887,7 @@
             extra: "Он потерял сестру во время Разрыва и теперь пытается исправить ошибку.",
             relations: ["Чистые", "Культ Забвения"],
             comment: "Корб: «Они не злодеи. Они — безумцы, которые считают себя спасителями.»"
-        },
-        {
+        }, {
             id: 31,
             title: "Культ Забвения",
             type: "factions",
@@ -902,8 +898,7 @@
             extra: "Они сожгли Кедровый Лог.",
             relations: ["Синхронисты (Восс)", "Мира Уэст"],
             comment: "Мира: «Они сожгли мой дом. Я никогда не забуду их пение: „Забвение — милость“.»"
-        },
-        {
+        }, {
             id: 32,
             title: "Чистильщики (Элайджа)",
             type: "factions",
@@ -914,10 +909,7 @@
             extra: "Он когда-то убил своего брата-Сшитого.",
             relations: ["Сшитые (глубокие)", "Корб Хейз"],
             comment: "Корб: «Он прав, что некоторые не спасти. Вопрос — кто решает, кого спасать?»"
-        },
-
-        // ---- АРТЕФАКТЫ ----
-        {
+        }, {
             id: 40,
             title: "Альбом Миры",
             type: "artifacts",
@@ -928,8 +920,7 @@
             extra: "Она боится открывать его в темноте.",
             relations: ["Мира Уэст", "Странник (Эш)"],
             comment: "Мира: «Я боюсь открывать его в темноте. Но без него я бы уже забыла, кто я.»"
-        },
-        {
+        }, {
             id: 41,
             title: "Старые часы Корба",
             type: "artifacts",
@@ -940,10 +931,7 @@
             extra: "Он никогда не снимает их.",
             relations: ["Корб Хейз"],
             comment: "Корб: «Время — единственное, что нельзя подделать.»"
-        },
-
-        // ---- ЖИВОТНЫЕ ----
-        {
+        }, {
             id: 50,
             title: "Шрапнель (пёс Корба)",
             type: "animals",
@@ -954,8 +942,7 @@
             extra: "Если Шрапнель садится и не идёт дальше — Корб меняет маршрут.",
             relations: ["Корб Хейз"],
             comment: "Корб: «Он — единственный, кто не врёт. Если он виляет хвостом — значит, я ещё человек.»"
-        },
-        {
+        }, {
             id: 51,
             title: "Пятно (кот Жнеца)",
             type: "animals",
@@ -966,8 +953,7 @@
             extra: "Он почти не мяукает, только иногда тихо урчит.",
             relations: ["Жнец (Тимми Росс)", "Иви"],
             comment: "Жнец: «Он смотрит на меня так, будто знает, кем я был. Я не знаю. Но он — знает.»"
-        },
-        {
+        }, {
             id: 52,
             title: "Туман (волк Кейда)",
             type: "animals",
@@ -978,8 +964,7 @@
             extra: "Кейд почти не разговаривает, но с волком ему не нужны слова.",
             relations: ["Кейд «Немой»"],
             comment: "Кейд: «Мы молчим вместе. Это больше, чем слова.»"
-        },
-        {
+        }, {
             id: 53,
             title: "Эхо (ястреб Стефана)",
             type: "animals",
@@ -990,8 +975,7 @@
             extra: "Ястреб никогда не улетает далеко от Стефана.",
             relations: ["Стефан Морен"],
             comment: "Стефан: «Он не видит, но он знает, куда лететь. Может, мы такие же.»"
-        },
-        {
+        }, {
             id: 54,
             title: "Гром (конь Коула)",
             type: "animals",
@@ -1002,8 +986,7 @@
             extra: "Гром всегда ждёт его у ворот «Предела».",
             relations: ["Коул Мэддокс"],
             comment: "Коул: «Он знает дорогу даже в тумане. Я не знаю, как он это делает.»"
-        },
-        {
+        }, {
             id: 55,
             title: "Ржавчина (кошка Анны)",
             type: "animals",
@@ -1014,8 +997,7 @@
             extra: "Иногда Анна шепчет ей что-то, пока никто не видит.",
             relations: ["Анна Тишина"],
             comment: "Анна: «Она не спрашивает, что я сделала. Она просто сидит рядом.»"
-        },
-        {
+        }, {
             id: 56,
             title: "Клякса (ворона Миры)",
             type: "animals",
@@ -1026,51 +1008,90 @@
             extra: "Мира не знает, где она прячется ночью.",
             relations: ["Мира Уэст"],
             comment: "Мира: «Она говорит моим голосом. Иногда это пугает. Но я знаю: она не предаст.»"
+        }];
+
+        const container = document.getElementById('recordsContainer');
+        const filterButtons = document.querySelectorAll('#filterBar button');
+        const searchInput = document.getElementById('searchInput');
+        const statusSelect = document.getElementById('statusFilter');
+        const countSpan = document.getElementById('recordCount');
+        const mapContainer = document.getElementById('mapContainer');
+        const mapToggle = document.getElementById('mapToggle');
+        let mapView = false;
+        let mapInstance = null;
+
+        let currentTypeFilter = 'all';
+        let currentSearch = '';
+        let currentStatus = 'all';
+
+        function getFilteredRecords() {
+            return records.filter(rec => {
+                if (currentTypeFilter !== 'all' && rec.type !== currentTypeFilter) return false;
+                if (currentStatus !== 'all' && rec.status !== currentStatus) return false;
+                if (currentSearch.trim() !== '') {
+                    const lower = currentSearch.toLowerCase();
+                    const titleMatch = rec.title.toLowerCase().includes(lower);
+                    const textMatch = rec.text.toLowerCase().includes(lower);
+                    const fullMatch = (rec.full_text || '').toLowerCase().includes(lower);
+                    if (!titleMatch && !textMatch && !fullMatch) return false;
+                }
+                return true;
+            });
         }
-    ];
 
-    // ============================================================
-    // ЛОГИКА ФИЛЬТРАЦИИ
-    // ============================================================
-    const container = document.getElementById('recordsContainer');
-    const filterButtons = document.querySelectorAll('#filterBar button');
-    const searchInput = document.getElementById('searchInput');
-    const statusSelect = document.getElementById('statusFilter');
-    const countSpan = document.getElementById('recordCount');
-    const mapContainer = document.getElementById('mapContainer');
-    const mapToggle = document.getElementById('mapToggle');
-    let mapView = false;
-    let mapInstance = null;
+        function render() {
+            const filtered = getFilteredRecords();
+            countSpan.textContent = `Записей: ${filtered.length}`;
 
-    let currentTypeFilter = 'all';
-    let currentSearch = '';
-    let currentStatus = 'all';
-
-    function getFilteredRecords() {
-        return records.filter(rec => {
-            if (currentTypeFilter !== 'all' && rec.type !== currentTypeFilter) return false;
-            if (currentStatus !== 'all' && rec.status !== currentStatus) return false;
-            if (currentSearch.trim() !== '') {
-                const lower = currentSearch.toLowerCase();
-                const titleMatch = rec.title.toLowerCase().includes(lower);
-                const textMatch = rec.text.toLowerCase().includes(lower);
-                const fullMatch = (rec.full_text || '').toLowerCase().includes(lower);
-                if (!titleMatch && !textMatch && !fullMatch) return false;
+            if (filtered.length === 0) {
+                container.innerHTML =
+                `<div style="grid-column: 1/-1; text-align:center; padding:40px; color:#9b7a58;">Нет записей, соответствующих фильтрам.</div>`;
+                return;
             }
-            return true;
-        });
-    }
 
-    function render() {
-        const filtered = getFilteredRecords();
-        countSpan.textContent = `Записей: ${filtered.length}`;
+            container.innerHTML = filtered.map(rec => {
+                const statusClass = rec.status || 'unknown';
+                const statusLabel = {
+                    met: 'Встречено',
+                    studied: 'Изучено',
+                    danger: 'Опасно',
+                    rumor: 'Слух',
+                    unknown: 'Неизвестно'
+                } [statusClass] || statusClass;
 
-        if (filtered.length === 0) {
-            container.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding:40px; color:#9b7a58;">Нет записей, соответствующих фильтрам.</div>`;
-            return;
+                let imgHtml = '';
+                if (rec.image) {
+                    imgHtml = `<div class="image"><img src="${rec.image}" alt="${rec.title}"></div>`;
+                } else {
+                    imgHtml = `<div class="image"><span class="placeholder">🖼️</span></div>`;
+                }
+
+                return `
+                        <div class="card" data-id="${rec.id}">
+                            <div class="title">${rec.title}</div>
+                            <div class="type">${rec.type}</div>
+                            <span class="status ${statusClass}">${statusLabel}</span>
+                            ${imgHtml}
+                            <div class="text">${rec.text}</div>
+                            ${rec.comment ? `<div class="comment">${rec.comment}</div>` : ''}
+                        </div>
+                    `;
+            }).join('');
+
+            document.querySelectorAll('.card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const id = parseInt(this.dataset.id);
+                    const record = records.find(r => r.id === id);
+                    if (record) openOverlay(record);
+                });
+            });
         }
 
-        container.innerHTML = filtered.map(rec => {
+        const overlay = document.getElementById('overlay');
+        const overlayBody = document.getElementById('overlayBody');
+        const closeBtn = document.getElementById('closeOverlay');
+
+        function openOverlay(rec) {
             const statusClass = rec.status || 'unknown';
             const statusLabel = {
                 met: 'Встречено',
@@ -1078,244 +1099,201 @@
                 danger: 'Опасно',
                 rumor: 'Слух',
                 unknown: 'Неизвестно'
-            }[statusClass] || statusClass;
+            } [statusClass] || statusClass;
+
+            const typeLabel = {
+                people: 'Люди',
+                locations: 'Локации',
+                anomalies: 'Аномалии',
+                factions: 'Фракции',
+                artifacts: 'Артефакты',
+                rituals: 'Ритуалы',
+                animals: 'Животные'
+            } [rec.type] || rec.type;
 
             let imgHtml = '';
             if (rec.image) {
-                imgHtml = `<div class="image"><img src="${rec.image}" alt="${rec.title}"></div>`;
-            } else {
-                imgHtml = `<div class="image"><span class="placeholder">🖼️</span></div>`;
+                imgHtml = `<img src="${rec.image}" alt="${rec.title}" class="full-image">`;
             }
 
-            return `
-                <div class="card" data-id="${rec.id}">
-                    <div class="title">${rec.title}</div>
-                    <div class="type">${rec.type}</div>
-                    <span class="status ${statusClass}">${statusLabel}</span>
+            const fullText = rec.full_text || rec.text;
+            const extra = rec.extra || '';
+            const relations = rec.relations || [];
+            const quote = rec.comment || '«Память — единственное, что нельзя отнять.»';
+
+            let relationsHtml = '';
+            if (relations.length) {
+                relationsHtml = `<div class="extra-title">✦ Связи</div>`;
+                relations.forEach(rel => {
+                    const cleanRel = rel.replace(/\(.*\)/g, '').trim();
+                    const found = records.find(r => r.title.includes(cleanRel) || cleanRel.includes(r.title));
+                    if (found) {
+                        relationsHtml += `<span class="relation-item" data-id="${found.id}">→ ${rel}</span>`;
+                    } else {
+                        relationsHtml += `<span class="relation-item">• ${rel}</span>`;
+                    }
+                });
+            }
+
+            overlayBody.innerHTML = `
+                    <div class="full-title">${rec.title}</div>
+                    <div class="full-type">${typeLabel}</div>
+                    <div class="full-status status ${statusClass}">${statusLabel}</div>
                     ${imgHtml}
-                    <div class="text">${rec.text}</div>
-                    ${rec.comment ? `<div class="comment">${rec.comment}</div>` : ''}
-                </div>
-            `;
-        }).join('');
+                    <div class="full-text">${fullText}</div>
+                    ${extra ? `<div class="extra-title">✦ Дополнительно</div><div class="extra-text">${extra}</div>` : ''}
+                    ${relationsHtml}
+                    <div class="full-comment" style="border-top: 1px solid #d0c0aa; padding-top: 14px; margin-top: 10px; font-style: italic; color: #5f4a34;">${quote}</div>
+                    <div class="meta">
+                        <span>📌 ID: ${rec.id}</span>
+                        <span>📁 Тип: ${typeLabel}</span>
+                        <span>📊 Статус: ${statusLabel}</span>
+                    </div>
+                `;
 
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('click', function() {
-                const id = parseInt(this.dataset.id);
-                const record = records.find(r => r.id === id);
-                if (record) openOverlay(record);
+            document.querySelectorAll('.relation-item[data-id]').forEach(el => {
+                el.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const id = parseInt(this.dataset.id);
+                    const record = records.find(r => r.id === id);
+                    if (record) {
+                        closeOverlayFn();
+                        setTimeout(() => openOverlay(record), 200);
+                    }
+                });
             });
-        });
-    }
 
-    // ============================================================
-    // МОДАЛЬНОЕ ОКНО (цитата добавлена)
-    // ============================================================
-    const overlay = document.getElementById('overlay');
-    const overlayBody = document.getElementById('overlayBody');
-    const closeBtn = document.getElementById('closeOverlay');
-
-    function openOverlay(rec) {
-        const statusClass = rec.status || 'unknown';
-        const statusLabel = {
-            met: 'Встречено',
-            studied: 'Изучено',
-            danger: 'Опасно',
-            rumor: 'Слух',
-            unknown: 'Неизвестно'
-        }[statusClass] || statusClass;
-
-        const typeLabel = {
-            people: 'Люди',
-            locations: 'Локации',
-            anomalies: 'Аномалии',
-            factions: 'Фракции',
-            artifacts: 'Артефакты',
-            rituals: 'Ритуалы',
-            animals: 'Животные'
-        }[rec.type] || rec.type;
-
-        let imgHtml = '';
-        if (rec.image) {
-            imgHtml = `<img src="${rec.image}" alt="${rec.title}" class="full-image">`;
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
         }
 
-        const fullText = rec.full_text || rec.text;
-        const extra = rec.extra || '';
-        const relations = rec.relations || [];
-        // Цитата — используем comment, если есть, иначе дефолтную
-        const quote = rec.comment || '«Память — единственное, что нельзя отнять.»';
-
-        let relationsHtml = '';
-        if (relations.length) {
-            relationsHtml = `<div class="extra-title">✦ Связи</div>`;
-            relations.forEach(rel => {
-                const cleanRel = rel.replace(/\(.*\)/g, '').trim();
-                const found = records.find(r => r.title.includes(cleanRel) || cleanRel.includes(r.title));
-                if (found) {
-                    relationsHtml += `<span class="relation-item" data-id="${found.id}">→ ${rel}</span>`;
-                } else {
-                    relationsHtml += `<span class="relation-item">• ${rel}</span>`;
-                }
-            });
+        function closeOverlayFn() {
+            overlay.classList.remove('open');
+            document.body.style.overflow = '';
         }
 
-        overlayBody.innerHTML = `
-            <div class="full-title">${rec.title}</div>
-            <div class="full-type">${typeLabel}</div>
-            <div class="full-status status ${statusClass}">${statusLabel}</div>
-            ${imgHtml}
-            <div class="full-text">${fullText}</div>
-            ${extra ? `<div class="extra-title">✦ Дополнительно</div><div class="extra-text">${extra}</div>` : ''}
-            ${relationsHtml}
-            <div class="full-comment" style="border-top: 1px solid #d0c0aa; padding-top: 14px; margin-top: 10px; font-style: italic; color: #5f4a34;">${quote}</div>
-            <div class="meta">
-                <span>📌 ID: ${rec.id}</span>
-                <span>📁 Тип: ${typeLabel}</span>
-                <span>📊 Статус: ${statusLabel}</span>
-            </div>
-        `;
-
-        document.querySelectorAll('.relation-item[data-id]').forEach(el => {
-            el.addEventListener('click', function(e) {
-                e.stopPropagation();
-                const id = parseInt(this.dataset.id);
-                const record = records.find(r => r.id === id);
-                if (record) {
-                    closeOverlayFn();
-                    setTimeout(() => openOverlay(record), 200);
-                }
-            });
+        closeBtn.addEventListener('click', closeOverlayFn);
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) closeOverlayFn();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeOverlayFn();
         });
 
-        overlay.classList.add('open');
-        document.body.style.overflow = 'hidden';
-    }
+        function initMap() {
+            if (mapInstance) return;
+            const imageUrl =
+            'https://i.ibb.co/S7JX3B9F/y-Hmd-Kj-RYXN2w-FOq-Gu51-DH-d1-Kl-HB7-Suy2pnw-B4yo65-FT0-NI4q-X21f-HQ6r-DIY5-A2c-Csbssua-Zs-Ph-D-Ik-QD2-Xyy.jpg';
+            const imageWidth = 1536;
+            const imageHeight = 1024;
 
-    function closeOverlayFn() {
-        overlay.classList.remove('open');
-        document.body.style.overflow = '';
-    }
-
-    closeBtn.addEventListener('click', closeOverlayFn);
-    overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) closeOverlayFn();
-    });
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeOverlayFn();
-    });
-
-    // ============================================================
-    // КАРТА
-    // ============================================================
-    function initMap() {
-        if (mapInstance) return;
-        const imageUrl = 'https://i.ibb.co/S7JX3B9F/y-Hmd-Kj-RYXN2w-FOq-Gu51-DH-d1-Kl-HB7-Suy2pnw-B4yo65-FT0-NI4q-X21f-HQ6r-DIY5-A2c-Csbssua-Zs-Ph-D-Ik-QD2-Xyy.jpg';
-        const imageWidth = 1536;
-        const imageHeight = 1024;
-
-        mapInstance = L.map('mapContainer', {
-            crs: L.CRS.Simple,
-            minZoom: -2,
-            maxZoom: 4,
-            zoom: 0,
-            center: [imageHeight / 2, imageWidth / 2],
-            attributionControl: false
-        });
-
-        const bounds = [[0, 0], [imageHeight, imageWidth]];
-        L.imageOverlay(imageUrl, bounds).addTo(mapInstance);
-
-        const locations = [
-            { id: 10, title: '«Предел»', coords: [760, 430] },
-            { id: 11, title: 'Кедровый Лог', coords: [590, 540] },
-            { id: 12, title: 'Кровавый лес', coords: [670, 210] },
-            { id: 13, title: 'Маяк Чистых', coords: [290, 790] },
-            { id: 14, title: 'Форт Хоука', coords: [850, 770] },
-            { id: 15, title: '«Эмбер»', coords: [1060, 470] },
-            { id: 16, title: 'Узел (горный)', coords: [870, 260] }
-        ];
-
-        locations.forEach(loc => {
-            const record = records.find(r => r.id === loc.id);
-            const marker = L.marker([loc.coords[1], loc.coords[0]], {
-                title: loc.title
+            mapInstance = L.map('mapContainer', {
+                crs: L.CRS.Simple,
+                minZoom: 0,
+                maxZoom: 0,
+                zoom: 0,
+                center: [imageHeight / 2, imageWidth / 2],
+                attributionControl: false,
+                zoomControl: false,
+                scrollWheelZoom: false,
+                doubleClickZoom: false,
+                touchZoom: false
             });
-            const popupText = record ? `<b>${record.title}</b><br>${record.text}` : loc.title;
-            marker.bindPopup(popupText);
-            marker.on('click', () => {
-                if (record) openOverlay(record);
+
+            const bounds = [
+                [0, 0],
+                [imageHeight, imageWidth]
+            ];
+            L.imageOverlay(imageUrl, bounds).addTo(mapInstance);
+            mapInstance.fitBounds(bounds);
+
+            const locations = [
+                { id: 10, title: '«Предел»', coords: [760, 430] },
+                { id: 11, title: 'Кедровый Лог', coords: [590, 540] },
+                { id: 12, title: 'Кровавый лес', coords: [670, 210] },
+                { id: 13, title: 'Маяк Чистых', coords: [290, 790] },
+                { id: 14, title: 'Форт Хоука', coords: [850, 770] },
+                { id: 15, title: '«Эмбер»', coords: [1060, 470] },
+                { id: 16, title: 'Узел (горный)', coords: [870, 260] }
+            ];
+
+            locations.forEach(loc => {
+                const record = records.find(r => r.id === loc.id);
+                const marker = L.marker([loc.coords[1], loc.coords[0]], {
+                    title: loc.title
+                });
+                marker.bindTooltip(loc.title, {
+                    permanent: false,
+                    direction: 'top',
+                    offset: [0, -10],
+                    className: 'custom-tooltip'
+                });
+                marker.on('click', () => {
+                    if (record) openOverlay(record);
+                });
+                mapInstance.addLayer(marker);
             });
-            mapInstance.addLayer(marker);
-        });
 
-        setTimeout(() => {
-            if (mapInstance) mapInstance.invalidateSize();
-        }, 200);
-    }
-
-    // Переключение карты
-    mapToggle.addEventListener('click', function() {
-        mapView = !mapView;
-        if (mapView) {
-            document.getElementById('recordsContainer').style.display = 'none';
-            document.getElementById('mapContainer').classList.add('visible');
-            mapToggle.textContent = '📋 Список';
-            if (!mapInstance) initMap();
             setTimeout(() => {
                 if (mapInstance) mapInstance.invalidateSize();
-            }, 150);
-        } else {
-            document.getElementById('recordsContainer').style.display = 'grid';
-            document.getElementById('mapContainer').classList.remove('visible');
-            mapToggle.textContent = '🗺️ Карта';
+            }, 200);
         }
-    });
 
-    // ============================================================
-    // ТЁМНАЯ ТЕМА
-    // ============================================================
-    const themeToggle = document.getElementById('themeToggle');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const savedTheme = localStorage.getItem('rift-theme');
+        mapToggle.addEventListener('click', function() {
+            mapView = !mapView;
+            if (mapView) {
+                document.getElementById('recordsContainer').style.display = 'none';
+                document.getElementById('mapContainer').classList.add('visible');
+                mapToggle.textContent = '📋 Список';
+                if (!mapInstance) initMap();
+                setTimeout(() => {
+                    if (mapInstance) mapInstance.invalidateSize();
+                }, 150);
+            } else {
+                document.getElementById('recordsContainer').style.display = 'grid';
+                document.getElementById('mapContainer').classList.remove('visible');
+                mapToggle.textContent = '🗺️ Карта';
+            }
+        });
 
-    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-        document.body.classList.add('dark-theme');
-    }
+        const themeToggle = document.getElementById('themeToggle');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const savedTheme = localStorage.getItem('rift-theme');
 
-    themeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-theme');
-        const isDark = document.body.classList.contains('dark-theme');
-        localStorage.setItem('rift-theme', isDark ? 'dark' : 'light');
-    });
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+            document.body.classList.add('dark-theme');
+        }
 
-    // ============================================================
-    // ОБНОВЛЕНИЕ ФИЛЬТРОВ
-    // ============================================================
-    function updateFilters() {
-        render();
-    }
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+            const isDark = document.body.classList.contains('dark-theme');
+            localStorage.setItem('rift-theme', isDark ? 'dark' : 'light');
+        });
 
-    filterButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            filterButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentTypeFilter = btn.dataset.filter;
+        function updateFilters() {
+            render();
+        }
+
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentTypeFilter = btn.dataset.filter;
+                updateFilters();
+            });
+        });
+
+        searchInput.addEventListener('input', (e) => {
+            currentSearch = e.target.value;
             updateFilters();
         });
-    });
 
-    searchInput.addEventListener('input', (e) => {
-        currentSearch = e.target.value;
-        updateFilters();
-    });
+        statusSelect.addEventListener('change', (e) => {
+            currentStatus = e.target.value;
+            updateFilters();
+        });
 
-    statusSelect.addEventListener('change', (e) => {
-        currentStatus = e.target.value;
-        updateFilters();
-    });
-
-    render();
-</script>
+        render();
+    </script>
 </body>
-</html>
+    </html>
