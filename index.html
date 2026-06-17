@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Архив Предела — карта и справочник</title>
     <style>
-        /* ===== ВСЕ СТИЛИ КАК В РАБОЧЕЙ ВЕРСИИ (без Leaflet) ===== */
+        /* ===== БАЗОВЫЕ СТИЛИ ===== */
         * {
             margin: 0;
             padding: 0;
@@ -53,6 +53,7 @@
             padding-top: 10px;
             margin-top: 10px;
         }
+        /* ===== ТЁМНАЯ ТЕМА ===== */
         body.dark-theme {
             background: #1b1712;
             color: #f0ebe0;
@@ -111,7 +112,8 @@
             color: #b09880;
             border-color: #4f3f2e;
         }
-        body.dark-theme .map-note {
+        body.dark-theme .map-note,
+        body.dark-theme .timeline-note {
             background: #221c16;
             color: #d0b898;
             border-top-color: #4f3f2e;
@@ -217,7 +219,30 @@
             background: #4a3a2a;
             border-color: #6f5a42;
         }
+        body.dark-theme #mapContainer {
+            background: #2e2720;
+        }
+        body.dark-theme .timeline-container {
+            background: #2e2720;
+        }
+        body.dark-theme .timeline-event .year {
+            color: #c9a87a;
+        }
+        body.dark-theme .timeline-event .title {
+            color: #f0ebe0;
+        }
+        body.dark-theme .timeline-event .desc {
+            color: #d0b898;
+        }
+        body.dark-theme .timeline-vertical::before {
+            background: #c9a87a;
+        }
+        body.dark-theme .timeline-event::before {
+            background: #c9a87a;
+            border-color: #b97f44;
+        }
 
+        /* ===== ПАНЕЛЬ УПРАВЛЕНИЯ ===== */
         .controls-panel {
             background: #dcd0c0;
             padding: 12px 20px;
@@ -257,7 +282,8 @@
             color: #5f4a34;
         }
         .theme-toggle,
-        .map-toggle {
+        .map-toggle,
+        .timeline-toggle {
             background: #4d3826;
             border: none;
             color: #f0debe;
@@ -269,14 +295,18 @@
             transition: 0.2s;
         }
         .theme-toggle:hover,
-        .map-toggle:hover {
+        .map-toggle:hover,
+        .timeline-toggle:hover {
             background: #785e3f;
         }
         body.dark-theme .theme-toggle,
-        body.dark-theme .map-toggle {
+        body.dark-theme .map-toggle,
+        body.dark-theme .timeline-toggle {
             background: #c9a87a;
             color: #1f1710;
         }
+
+        /* ===== ФИЛЬТРЫ ===== */
         .toolbar {
             display: flex;
             flex-wrap: wrap;
@@ -306,6 +336,8 @@
         .toolbar button:hover {
             background: #a58d72;
         }
+
+        /* ===== СПИСОК ===== */
         .records-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -409,6 +441,8 @@
         .card .image .placeholder {
             color: #9f886b;
         }
+
+        /* ===== КАРТА ===== */
         #mapContainer {
             width: 100%;
             display: none;
@@ -435,6 +469,87 @@
             background: #f5efe8;
             border-top: 1px solid #b8a68b;
         }
+
+        /* ===== ВЕРТИКАЛЬНЫЙ ТАЙМЛАЙН ===== */
+        .timeline-container {
+            display: none;
+            padding: 30px 20px;
+            background: #f5efe8;
+            border-top: 1px solid #b8a68b;
+            border-radius: 0 0 28px 28px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .timeline-container.visible {
+            display: block;
+        }
+        .timeline-vertical {
+            position: relative;
+            padding-left: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .timeline-vertical::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #b97f44;
+            opacity: 0.4;
+        }
+        .timeline-event {
+            position: relative;
+            margin-bottom: 30px;
+            padding-left: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .timeline-event:hover {
+            transform: translateX(5px);
+        }
+        .timeline-event::before {
+            content: '';
+            position: absolute;
+            left: -33px;
+            top: 6px;
+            width: 16px;
+            height: 16px;
+            background: #b97f44;
+            border: 2px solid #ffd966;
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(0,0,0,0.2);
+            z-index: 2;
+        }
+        .timeline-event .year {
+            font-weight: bold;
+            font-size: 18px;
+            color: #b97f44;
+            margin-bottom: 2px;
+        }
+        .timeline-event .title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #3d2e1d;
+            margin-bottom: 4px;
+        }
+        .timeline-event .desc {
+            font-size: 14px;
+            color: #5f4a34;
+            line-height: 1.4;
+            max-width: 600px;
+        }
+        .timeline-note {
+            text-align: center;
+            color: #7a6548;
+            font-size: 12px;
+            padding: 10px;
+            background: #f5efe8;
+            border-top: 1px solid #b8a68b;
+        }
+
+        /* ===== ПОДВАЛ ===== */
         .footer {
             background: #dcd0c0;
             padding: 12px;
@@ -444,6 +559,8 @@
             border-top: 1px solid #b8a68b;
             transition: background 0.3s, border-color 0.3s;
         }
+
+        /* ===== МОДАЛЬНОЕ ОКНО ===== */
         .overlay {
             position: fixed;
             top: 0;
@@ -591,6 +708,7 @@
             border-radius: 40px;
             transition: background 0.3s;
         }
+
         @media (max-width: 600px) {
             .records-grid {
                 grid-template-columns: 1fr;
@@ -612,10 +730,13 @@
                 font-size: 22px;
                 padding-right: 30px;
             }
+            .timeline-vertical {
+                padding-left: 30px;
+            }
+            .timeline-event::before {
+                left: -25px;
+            }
         }
-        body.dark-theme #mapContainer {
-    background: #2e2720;
-}
     </style>
 </head>
 <body>
@@ -641,6 +762,7 @@
                 </select>
             </label>
             <button class="map-toggle" id="mapToggle">🗺️ Карта</button>
+            <button class="timeline-toggle" id="timelineToggle">📅 Таймлайн</button>
             <button class="theme-toggle" id="themeToggle">🌓 Тема</button>
             <span class="count" id="recordCount">Записей: 0</span>
         </div>
@@ -658,31 +780,40 @@
 
         <div id="recordsContainer" class="records-grid"></div>
 
+        <!-- КАРТА -->
         <div id="mapContainer">
-    <div style="position: relative; display: inline-block; width: 100%; max-width: 100%;">
-        <img src="https://i.ibb.co/S7JX3B9F/y-Hmd-Kj-RYXN2w-FOq-Gu51-DH-d1-Kl-HB7-Suy2pnw-B4yo65-FT0-NI4q-X21f-HQ6r-DIY5-A2c-Csbssua-Zs-Ph-D-Ik-QD2-Xyy.jpg" alt="Карта мира" usemap="#riftmap" style="width:100%; height:auto; border-radius:16px; border:2px solid #b97f44; display:block;">
-        <map name="riftmap">
-            <area shape="circle" coords="430,760" href="#" title="«Предел»" alt="Предел">
-            <area shape="circle" coords="540,590" href="#" title="Кедровый Лог" alt="Кедровый Лог">
-            <area shape="circle" coords="210,670" href="#" title="Кровавый лес" alt="Кровавый лес">
-            <area shape="circle" coords="790,290" href="#" title="Маяк Чистых" alt="Маяк">
-            <area shape="circle" coords="770,850" href="#" title="Форт Хоука" alt="Форт Хоука">
-            <area shape="circle" coords="470,1060" href="#" title="«Эмбер»" alt="Эмбер">
-            <area shape="circle" coords="260,870" href="#" title="Узел (горный)" alt="Узел">
-        </map>
-        <!-- ВИДИМЫЕ МАРКЕРЫ с обработчиками кликов -->
-        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;">
-            <div data-id="10" style="position: absolute; left: 43%; top: 76%; width: 20px; height: 20px; background: #b97f44; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="«Предел»"></div>
-            <div data-id="11" style="position: absolute; left: 54%; top: 59%; width: 20px; height: 20px; background: #b97f44; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="Кедровый Лог"></div>
-            <div data-id="12" style="position: absolute; left: 21%; top: 67%; width: 20px; height: 20px; background: #b35e3a; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="Кровавый лес"></div>
-            <div data-id="13" style="position: absolute; left: 79%; top: 29%; width: 20px; height: 20px; background: #8b6b48; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="Маяк Чистых"></div>
-            <div data-id="14" style="position: absolute; left: 77%; top: 85%; width: 20px; height: 20px; background: #b35e3a; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="Форт Хоука"></div>
-            <div data-id="15" style="position: absolute; left: 47%; top: 106%; width: 20px; height: 20px; background: #b97f44; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="«Эмбер»"></div>
-            <div data-id="16" style="position: absolute; left: 26%; top: 87%; width: 20px; height: 20px; background: #5f3e28; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="Узел (горный)"></div>
+            <div style="position: relative; display: inline-block; width: 100%; max-width: 100%;">
+                <img src="https://i.ibb.co/S7JX3B9F/y-Hmd-Kj-RYXN2w-FOq-Gu51-DH-d1-Kl-HB7-Suy2pnw-B4yo65-FT0-NI4q-X21f-HQ6r-DIY5-A2c-Csbssua-Zs-Ph-D-Ik-QD2-Xyy.jpg" alt="Карта мира" usemap="#riftmap" style="width:100%; height:auto; border-radius:16px; border:2px solid #b97f44; display:block;">
+                <map name="riftmap">
+                    <area shape="circle" coords="430,760" href="#" title="«Предел»" alt="Предел">
+                    <area shape="circle" coords="540,590" href="#" title="Кедровый Лог" alt="Кедровый Лог">
+                    <area shape="circle" coords="210,670" href="#" title="Кровавый лес" alt="Кровавый лес">
+                    <area shape="circle" coords="790,290" href="#" title="Маяк Чистых" alt="Маяк">
+                    <area shape="circle" coords="770,850" href="#" title="Форт Хоука" alt="Форт Хоука">
+                    <area shape="circle" coords="470,1060" href="#" title="«Эмбер»" alt="Эмбер">
+                    <area shape="circle" coords="260,870" href="#" title="Узел (горный)" alt="Узел">
+                </map>
+                <!-- ВИДИМЫЕ МАРКЕРЫ -->
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;">
+                    <div data-id="10" style="position: absolute; left: 43%; top: 76%; width: 20px; height: 20px; background: #b97f44; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="«Предел»"></div>
+                    <div data-id="11" style="position: absolute; left: 54%; top: 59%; width: 20px; height: 20px; background: #b97f44; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="Кедровый Лог"></div>
+                    <div data-id="12" style="position: absolute; left: 21%; top: 67%; width: 20px; height: 20px; background: #b35e3a; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="Кровавый лес"></div>
+                    <div data-id="13" style="position: absolute; left: 79%; top: 29%; width: 20px; height: 20px; background: #8b6b48; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="Маяк Чистых"></div>
+                    <div data-id="14" style="position: absolute; left: 77%; top: 85%; width: 20px; height: 20px; background: #b35e3a; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="Форт Хоука"></div>
+                    <div data-id="15" style="position: absolute; left: 47%; top: 106%; width: 20px; height: 20px; background: #b97f44; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="«Эмбер»"></div>
+                    <div data-id="16" style="position: absolute; left: 26%; top: 87%; width: 20px; height: 20px; background: #5f3e28; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="Узел (горный)"></div>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-        <div class="map-note" id="mapNote">📍 Наведи на маркер — узнай название.</div>
+        <div class="map-note" id="mapNote">📍 Наведи на маркер — узнай название. Кликни — откроется запись.</div>
+
+        <!-- ТАЙМЛАЙН -->
+        <div class="timeline-container" id="timelineContainer">
+            <div class="timeline-vertical" id="timelineVertical">
+                <!-- события будут вставлены скриптом -->
+            </div>
+        </div>
+        <div class="timeline-note" id="timelineNote">📅 Кликни по событию, чтобы узнать подробности.</div>
 
         <footer class="footer">
             <div class="footer-note">Записи появляются по мере встречи героев с новыми явлениями.</div>
@@ -1033,13 +1164,37 @@
         }];
 
         // ============================================================
-        // ЛОГИКА ФИЛЬТРАЦИИ И РЕНДЕРА
+        // МАССИВ СОБЫТИЙ ТАЙМЛАЙНА
+        // ============================================================
+        const timelineEvents = [
+            { year: 2033, title: "Эпоха усталости", description: "Психика человечества начала давать сбои. Люди тонули в информационном шуме, теряли устойчивость памяти. Технологии обещали спасение." },
+            { year: 2039, title: "Проект MnemOS", description: "Создана глобальная нейросеть для хранения и обработки воспоминаний. Сначала — лечение, потом — повседневность." },
+            { year: 2041, title: "Эпоха Эйфории", description: "MnemOS стал частью жизни. Люди записывали, редактировали и обменивались воспоминаниями. Границы личности стирались." },
+            { year: 2044, title: "Накопление шума", description: "Сеть перегружена. Ложные воспоминания, одинаковые сны, чужие голоса в голове. Предвестники катастрофы." },
+            { year: 2047, title: "Разрыв", description: "Глобальный сбой MnemOS. За 17 минут человечество пережило коллективную когнитивную перегрузку. Мир рухнул не в огне, а в тишине." },
+            { year: 2048, title: "Первые Пустые", description: "Люди начали терять личности. Пустые — живые тела без души. Первые толпы бредущих по дорогам." },
+            { year: 2050, title: "Появление Эхо", description: "Зацикленные воспоминания. Люди застревали в одном дне, повторяя одни и те же действия. Их нельзя было вылечить." },
+            { year: 2051, title: "Сшитые", description: "Смешение чужих личностей. В одном теле — несколько голосов. Некоторые научились сосуществовать, другие сошли с ума." },
+            { year: 2052, title: "Расцвет Культа Забвения", description: "Секта, призывающая забыть прошлое. Они сжигали дневники, уничтожали фотографии. Их пение «Забвение — милость» звучало в лесах." },
+            { year: 2053, title: "Кедровый Лог сожжён", description: "Поселение Миры уничтожено культом Забвения. Девушка сбежала с альбомом в руках. Её путь начался." },
+            { year: 2054, title: "Начало истории", description: "Мира встречает Корба и Рейн. Они отправляются к маяку, затем к Узлу. Путь, который изменит всё." }
+        ];
+
+        // ============================================================
+        // ЛОГИКА ОТОБРАЖЕНИЯ
         // ============================================================
         const container = document.getElementById('recordsContainer');
         const filterButtons = document.querySelectorAll('#filterBar button');
         const searchInput = document.getElementById('searchInput');
         const statusSelect = document.getElementById('statusFilter');
         const countSpan = document.getElementById('recordCount');
+        const mapContainer = document.getElementById('mapContainer');
+        const mapToggle = document.getElementById('mapToggle');
+        const timelineContainer = document.getElementById('timelineContainer');
+        const timelineToggle = document.getElementById('timelineToggle');
+        const timelineVertical = document.getElementById('timelineVertical');
+        let mapView = false;
+        let timelineView = false;
 
         let currentTypeFilter = 'all';
         let currentSearch = '';
@@ -1166,7 +1321,7 @@
                 <div class="full-text">${fullText}</div>
                 ${extra ? `<div class="extra-title">✦ Дополнительно</div><div class="extra-text">${extra}</div>` : ''}
                 ${relationsHtml}
-                <div class="full-comment" style="border-top: 1px solid #d0c0aa; padding-top: 14px; margin-top: 10px; font-style: italic; color: #c0b09a;">${quote}</div>
+                <div class="full-comment" style="border-top: 1px solid #d0c0aa; padding-top: 14px; margin-top: 10px; font-style: italic; color: #7a6548;">${quote}</div>
                 <div class="meta">
                     <span>📌 ID: ${rec.id}</span>
                     <span>📁 Тип: ${typeLabel}</span>
@@ -1190,6 +1345,21 @@
             document.body.style.overflow = 'hidden';
         }
 
+        function openTimelineOverlay(eventData) {
+            overlayBody.innerHTML = `
+                <div class="full-title">${eventData.year} — ${eventData.title}</div>
+                <div class="full-type">Событие</div>
+                <div class="full-status status studied">Изучено</div>
+                <div class="full-text">${eventData.description}</div>
+                <div class="meta">
+                    <span>📅 ${eventData.year}</span>
+                    <span>📁 Тип: Событие</span>
+                </div>
+            `;
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
         function closeOverlayFn() {
             overlay.classList.remove('open');
             document.body.style.overflow = '';
@@ -1204,38 +1374,90 @@
         });
 
         // ============================================================
-        // ТЁМНАЯ ТЕМА
+        // ТАЙМЛАЙН
         // ============================================================
-        const themeToggle = document.getElementById('themeToggle');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const savedTheme = localStorage.getItem('rift-theme');
-
-        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-            document.body.classList.add('dark-theme');
+        function renderTimeline() {
+            timelineVertical.innerHTML = '';
+            timelineEvents.forEach((ev) => {
+                const eventDiv = document.createElement('div');
+                eventDiv.className = 'timeline-event';
+                eventDiv.innerHTML = `
+                    <div class="year">${ev.year}</div>
+                    <div class="title">${ev.title}</div>
+                    <div class="desc">${ev.description.substring(0, 120)}${ev.description.length > 120 ? '…' : ''}</div>
+                `;
+                eventDiv.addEventListener('click', function() {
+                    openTimelineOverlay(ev);
+                });
+                timelineVertical.appendChild(eventDiv);
+            });
         }
 
-        themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-theme');
-            const isDark = document.body.classList.contains('dark-theme');
-            localStorage.setItem('rift-theme', isDark ? 'dark' : 'light');
+        // ============================================================
+        // ПЕРЕКЛЮЧЕНИЕ РЕЖИМОВ
+        // ============================================================
+        function setView(view) {
+            container.style.display = 'none';
+            mapContainer.classList.remove('visible');
+            timelineContainer.classList.remove('visible');
+            document.getElementById('mapNote').style.display = 'none';
+            document.getElementById('timelineNote').style.display = 'none';
+            countSpan.style.display = 'none';
+
+            if (view === 'list') {
+                container.style.display = 'grid';
+                mapToggle.textContent = '🗺️ Карта';
+                timelineToggle.textContent = '📅 Таймлайн';
+                mapView = false;
+                timelineView = false;
+                countSpan.style.display = 'inline';
+            } else if (view === 'map') {
+                mapContainer.classList.add('visible');
+                document.getElementById('mapNote').style.display = 'block';
+                mapToggle.textContent = '📋 Список';
+                timelineToggle.textContent = '📅 Таймлайн';
+                mapView = true;
+                timelineView = false;
+                countSpan.style.display = 'none';
+                // Подключаем обработчики для маркеров
+                document.querySelectorAll('#mapContainer div[data-id]').forEach(marker => {
+                    marker.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const id = parseInt(this.dataset.id);
+                        const record = records.find(r => r.id === id);
+                        if (record) openOverlay(record);
+                    });
+                });
+            } else if (view === 'timeline') {
+                timelineContainer.classList.add('visible');
+                document.getElementById('timelineNote').style.display = 'block';
+                timelineToggle.textContent = '📋 Список';
+                mapToggle.textContent = '🗺️ Карта';
+                timelineView = true;
+                mapView = false;
+                countSpan.style.display = 'none';
+                renderTimeline();
+            }
+        }
+
+        mapToggle.addEventListener('click', function() {
+            if (mapView) {
+                setView('list');
+            } else {
+                setView('map');
+            }
         });
 
-        // ============================================================
-        // ПЕРЕКЛЮЧЕНИЕ КАРТЫ
-        // ============================================================
-        document.getElementById('mapToggle').addEventListener('click', function() {
-            const mapDiv = document.getElementById('mapContainer');
-            const isVisible = mapDiv.classList.toggle('visible');
-            this.textContent = isVisible ? '📋 Список' : '🗺️ Карта';
-            if (isVisible) {
-                document.getElementById('recordsContainer').style.display = 'none';
+        timelineToggle.addEventListener('click', function() {
+            if (timelineView) {
+                setView('list');
             } else {
-                document.getElementById('recordsContainer').style.display = 'grid';
+                setView('timeline');
             }
         });
 
         // ============================================================
-        // ОБНОВЛЕНИЕ ФИЛЬТРОВ
+        // ФИЛЬТРЫ, ПОИСК
         // ============================================================
         function updateFilters() {
             render();
@@ -1260,17 +1482,28 @@
             updateFilters();
         });
 
-        render();
+        // ============================================================
+        // ТЁМНАЯ ТЕМА
+        // ============================================================
+        const themeToggle = document.getElementById('themeToggle');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const savedTheme = localStorage.getItem('rift-theme');
 
-        // Обработчики для маркеров на карте
-document.querySelectorAll('#mapContainer div[data-id]').forEach(marker => {
-    marker.addEventListener('click', function(e) {
-        e.stopPropagation();
-        const id = parseInt(this.dataset.id);
-        const record = records.find(r => r.id === id);
-        if (record) openOverlay(record);
-    });
-});
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+            document.body.classList.add('dark-theme');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+            const isDark = document.body.classList.contains('dark-theme');
+            localStorage.setItem('rift-theme', isDark ? 'dark' : 'light');
+        });
+
+        // ============================================================
+        // СТАРТ
+        // ============================================================
+        setView('list');
+        render();
     </script>
 </body>
 </html>
