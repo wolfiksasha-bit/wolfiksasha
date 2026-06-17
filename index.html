@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Архив Предела — карта и справочник</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <title>Архив Предела — справочник мира «Разрыв»</title>
     <style>
+        /* ===== ВСЕ СТИЛИ КАК В РАБОЧЕЙ ВЕРСИИ (без Leaflet) ===== */
         * {
             margin: 0;
             padding: 0;
@@ -131,7 +131,7 @@
             color: #e0d5c8;
         }
         body.dark-theme .card .comment {
-            color: #c0b09a; /* восстановлен исходный цвет для читаемости */
+            color: #c0b09a;
             border-color: #5a4a36;
         }
         body.dark-theme .card .image {
@@ -188,7 +188,7 @@
             color: #e8ddd0;
         }
         body.dark-theme .overlay-content .full-comment {
-            color: #f5eee0; /* яркий контрастный цвет для модальных окон */
+            color: #d4c0b0;
             border-color: #5a4a36;
         }
         body.dark-theme .overlay-content .extra-title {
@@ -217,21 +217,7 @@
             background: #4a3a2a;
             border-color: #6f5a42;
         }
-        .custom-tooltip {
-            background: #f5efe8;
-            border: 1px solid #b97f44;
-            border-radius: 12px;
-            padding: 6px 14px;
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-            color: #2b241c;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-        body.dark-theme .custom-tooltip {
-            background: #3a3228;
-            color: #f0ebe0;
-            border-color: #c9a87a;
-        }
+
         .controls-panel {
             background: #dcd0c0;
             padding: 12px 20px;
@@ -424,16 +410,21 @@
             color: #9f886b;
         }
         #mapContainer {
-            height: 650px;
             width: 100%;
-            background: #b8c7b2;
             display: none;
+            text-align: center;
+            padding: 20px;
+            background: #e8e0d5;
             border-radius: 0 0 28px 28px;
-            transition: all 0.3s;
-            overflow: hidden;
         }
         #mapContainer.visible {
             display: block;
+        }
+        #mapContainer img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 16px;
+            border: 2px solid #b97f44;
         }
         .map-note {
             text-align: center;
@@ -548,7 +539,7 @@
         }
         .overlay-content .full-comment {
             font-size: 14px;
-            color: #3d2e1d;
+            color: #5f4a34;
             border-top: 1px solid #d0c0aa;
             padding-top: 14px;
             margin-top: 10px;
@@ -662,8 +653,20 @@
         </div>
 
         <div id="recordsContainer" class="records-grid"></div>
-        <div id="mapContainer"></div>
-        <div class="map-note" id="mapNote">📍 Наведи на маркер — узнай название. Кликни — откроется запись.</div>
+
+        <div id="mapContainer">
+            <img src="https://i.ibb.co/S7JX3B9F/y-Hmd-Kj-RYXN2w-FOq-Gu51-DH-d1-Kl-HB7-Suy2pnw-B4yo65-FT0-NI4q-X21f-HQ6r-DIY5-A2c-Csbssua-Zs-Ph-D-Ik-QD2-Xyy.jpg" alt="Карта мира" usemap="#riftmap" style="max-width:100%; height:auto; border-radius:16px; border:2px solid #b97f44;">
+            <map name="riftmap">
+                <area shape="circle" coords="430,760" href="#" title="«Предел»" alt="Предел">
+                <area shape="circle" coords="540,590" href="#" title="Кедровый Лог" alt="Кедровый Лог">
+                <area shape="circle" coords="210,670" href="#" title="Кровавый лес" alt="Кровавый лес">
+                <area shape="circle" coords="790,290" href="#" title="Маяк Чистых" alt="Маяк">
+                <area shape="circle" coords="770,850" href="#" title="Форт Хоука" alt="Форт Хоука">
+                <area shape="circle" coords="470,1060" href="#" title="«Эмбер»" alt="Эмбер">
+                <area shape="circle" coords="260,870" href="#" title="Узел (горный)" alt="Узел">
+            </map>
+        </div>
+        <div class="map-note" id="mapNote">📍 Наведи на маркер — узнай название.</div>
 
         <footer class="footer">
             <div class="footer-note">Записи появляются по мере встречи героев с новыми явлениями.</div>
@@ -677,8 +680,10 @@
         </div>
     </div>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
+        // ============================================================
+        // ПОЛНАЯ БАЗА ДАННЫХ (все записи)
+        // ============================================================
         const records = [{
             id: 1,
             title: "Чистые",
@@ -1011,15 +1016,14 @@
             comment: "Мира: «Она говорит моим голосом. Иногда это пугает. Но я знаю: она не предаст.»"
         }];
 
+        // ============================================================
+        // ЛОГИКА ФИЛЬТРАЦИИ И РЕНДЕРА
+        // ============================================================
         const container = document.getElementById('recordsContainer');
         const filterButtons = document.querySelectorAll('#filterBar button');
         const searchInput = document.getElementById('searchInput');
         const statusSelect = document.getElementById('statusFilter');
         const countSpan = document.getElementById('recordCount');
-        const mapContainer = document.getElementById('mapContainer');
-        const mapToggle = document.getElementById('mapToggle');
-        let mapView = false;
-        let mapInstance = null;
 
         let currentTypeFilter = 'all';
         let currentSearch = '';
@@ -1087,6 +1091,9 @@
             });
         }
 
+        // ============================================================
+        // МОДАЛЬНОЕ ОКНО
+        // ============================================================
         const overlay = document.getElementById('overlay');
         const overlayBody = document.getElementById('overlayBody');
         const closeBtn = document.getElementById('closeOverlay');
@@ -1180,81 +1187,9 @@
             if (e.key === 'Escape') closeOverlayFn();
         });
 
-        function initMap() {
-            if (mapInstance) return;
-            const imageUrl = 'https://i.ibb.co/S7JX3B9F/y-Hmd-Kj-RYXN2w-FOq-Gu51-DH-d1-Kl-HB7-Suy2pnw-B4yo65-FT0-NI4q-X21f-HQ6r-DIY5-A2c-Csbssua-Zs-Ph-D-Ik-QD2-Xyy.jpg';
-            const imageWidth = 1536;
-            const imageHeight = 1024;
-
-            mapInstance = L.map('mapContainer', {
-                crs: L.CRS.Simple,
-                minZoom: 0,
-                maxZoom: 0,
-                zoom: 0,
-                center: [imageHeight / 2, imageWidth / 2],
-                attributionControl: false,
-                zoomControl: false,
-                scrollWheelZoom: false,
-                doubleClickZoom: false,
-                touchZoom: false
-            });
-
-            const bounds = [
-                [0, 0],
-                [imageHeight, imageWidth]
-            ];
-            L.imageOverlay(imageUrl, bounds).addTo(mapInstance);
-            mapInstance.fitBounds(bounds);
-
-            const locations = [
-                { id: 10, title: '«Предел»', coords: [760, 430] },
-                { id: 11, title: 'Кедровый Лог', coords: [590, 540] },
-                { id: 12, title: 'Кровавый лес', coords: [670, 210] },
-                { id: 13, title: 'Маяк Чистых', coords: [290, 790] },
-                { id: 14, title: 'Форт Хоука', coords: [850, 770] },
-                { id: 15, title: '«Эмбер»', coords: [1060, 470] },
-                { id: 16, title: 'Узел (горный)', coords: [870, 260] }
-            ];
-
-            locations.forEach(loc => {
-                const record = records.find(r => r.id === loc.id);
-                const marker = L.marker([loc.coords[1], loc.coords[0]], {
-                    title: loc.title
-                });
-                marker.bindTooltip(loc.title, {
-                    permanent: false,
-                    direction: 'top',
-                    offset: [0, -10],
-                    className: 'custom-tooltip'
-                });
-                marker.on('click', () => {
-                    if (record) openOverlay(record);
-                });
-                mapInstance.addLayer(marker);
-            });
-
-            setTimeout(() => {
-                if (mapInstance) mapInstance.invalidateSize();
-            }, 200);
-        }
-
-        mapToggle.addEventListener('click', function() {
-            mapView = !mapView;
-            if (mapView) {
-                document.getElementById('recordsContainer').style.display = 'none';
-                document.getElementById('mapContainer').classList.add('visible');
-                mapToggle.textContent = '📋 Список';
-                if (!mapInstance) initMap();
-                setTimeout(() => {
-                    if (mapInstance) mapInstance.invalidateSize();
-                }, 150);
-            } else {
-                document.getElementById('recordsContainer').style.display = 'grid';
-                document.getElementById('mapContainer').classList.remove('visible');
-                mapToggle.textContent = '🗺️ Карта';
-            }
-        });
-
+        // ============================================================
+        // ТЁМНАЯ ТЕМА
+        // ============================================================
         const themeToggle = document.getElementById('themeToggle');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         const savedTheme = localStorage.getItem('rift-theme');
@@ -1269,6 +1204,23 @@
             localStorage.setItem('rift-theme', isDark ? 'dark' : 'light');
         });
 
+        // ============================================================
+        // ПЕРЕКЛЮЧЕНИЕ КАРТЫ (просто картинка)
+        // ============================================================
+        document.getElementById('mapToggle').addEventListener('click', function() {
+            const mapDiv = document.getElementById('mapContainer');
+            const isVisible = mapDiv.classList.toggle('visible');
+            this.textContent = isVisible ? '📋 Список' : '🗺️ Карта';
+            if (isVisible) {
+                document.getElementById('recordsContainer').style.display = 'none';
+            } else {
+                document.getElementById('recordsContainer').style.display = 'grid';
+            }
+        });
+
+        // ============================================================
+        // ОБНОВЛЕНИЕ ФИЛЬТРОВ
+        // ============================================================
         function updateFilters() {
             render();
         }
@@ -1295,4 +1247,4 @@
         render();
     </script>
 </body>
-    </html>
+</html>
