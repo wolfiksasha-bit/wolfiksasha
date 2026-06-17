@@ -131,7 +131,7 @@
             color: #e0d5c8;
         }
         body.dark-theme .card .comment {
-            color: #c0b09a;
+            color: #c0b09a; /* восстановлен исходный цвет для читаемости */
             border-color: #5a4a36;
         }
         body.dark-theme .card .image {
@@ -188,7 +188,7 @@
             color: #e8ddd0;
         }
         body.dark-theme .overlay-content .full-comment {
-            color: #f0e8d8;
+            color: #f5eee0; /* яркий контрастный цвет для модальных окон */
             border-color: #5a4a36;
         }
         body.dark-theme .overlay-content .extra-title {
@@ -430,6 +430,7 @@
             display: none;
             border-radius: 0 0 28px 28px;
             transition: all 0.3s;
+            overflow: hidden;
         }
         #mapContainer.visible {
             display: block;
@@ -530,9 +531,10 @@
         }
         .overlay-content .full-image {
             width: 100%;
-            max-height: 260px;
-            object-fit: contain;
-            border-radius: 16px;
+            height: auto;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 12px;
             background: #e8e0d5;
             margin: 12px 0 16px;
             border: 1px solid #d0c0aa;
@@ -546,7 +548,7 @@
         }
         .overlay-content .full-comment {
             font-size: 14px;
-            color: #5f4a34;
+            color: #3d2e1d;
             border-top: 1px solid #d0c0aa;
             padding-top: 14px;
             margin-top: 10px;
@@ -675,8 +677,7 @@
         </div>
     </div>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
-    </script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         const records = [{
             id: 1,
@@ -1044,8 +1045,7 @@
             countSpan.textContent = `Записей: ${filtered.length}`;
 
             if (filtered.length === 0) {
-                container.innerHTML =
-                `<div style="grid-column: 1/-1; text-align:center; padding:40px; color:#9b7a58;">Нет записей, соответствующих фильтрам.</div>`;
+                container.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding:40px; color:#9b7a58;">Нет записей, соответствующих фильтрам.</div>`;
                 return;
             }
 
@@ -1067,15 +1067,15 @@
                 }
 
                 return `
-                        <div class="card" data-id="${rec.id}">
-                            <div class="title">${rec.title}</div>
-                            <div class="type">${rec.type}</div>
-                            <span class="status ${statusClass}">${statusLabel}</span>
-                            ${imgHtml}
-                            <div class="text">${rec.text}</div>
-                            ${rec.comment ? `<div class="comment">${rec.comment}</div>` : ''}
-                        </div>
-                    `;
+                    <div class="card" data-id="${rec.id}">
+                        <div class="title">${rec.title}</div>
+                        <div class="type">${rec.type}</div>
+                        <span class="status ${statusClass}">${statusLabel}</span>
+                        ${imgHtml}
+                        <div class="text">${rec.text}</div>
+                        ${rec.comment ? `<div class="comment">${rec.comment}</div>` : ''}
+                    </div>
+                `;
             }).join('');
 
             document.querySelectorAll('.card').forEach(card => {
@@ -1136,20 +1136,20 @@
             }
 
             overlayBody.innerHTML = `
-                    <div class="full-title">${rec.title}</div>
-                    <div class="full-type">${typeLabel}</div>
-                    <div class="full-status status ${statusClass}">${statusLabel}</div>
-                    ${imgHtml}
-                    <div class="full-text">${fullText}</div>
-                    ${extra ? `<div class="extra-title">✦ Дополнительно</div><div class="extra-text">${extra}</div>` : ''}
-                    ${relationsHtml}
-                    <div class="full-comment" style="border-top: 1px solid #d0c0aa; padding-top: 14px; margin-top: 10px; font-style: italic; color: #5f4a34;">${quote}</div>
-                    <div class="meta">
-                        <span>📌 ID: ${rec.id}</span>
-                        <span>📁 Тип: ${typeLabel}</span>
-                        <span>📊 Статус: ${statusLabel}</span>
-                    </div>
-                `;
+                <div class="full-title">${rec.title}</div>
+                <div class="full-type">${typeLabel}</div>
+                <div class="full-status status ${statusClass}">${statusLabel}</div>
+                ${imgHtml}
+                <div class="full-text">${fullText}</div>
+                ${extra ? `<div class="extra-title">✦ Дополнительно</div><div class="extra-text">${extra}</div>` : ''}
+                ${relationsHtml}
+                <div class="full-comment" style="border-top: 1px solid #d0c0aa; padding-top: 14px; margin-top: 10px; font-style: italic; color: #3d2e1d;">${quote}</div>
+                <div class="meta">
+                    <span>📌 ID: ${rec.id}</span>
+                    <span>📁 Тип: ${typeLabel}</span>
+                    <span>📊 Статус: ${statusLabel}</span>
+                </div>
+            `;
 
             document.querySelectorAll('.relation-item[data-id]').forEach(el => {
                 el.addEventListener('click', function(e) {
@@ -1182,8 +1182,7 @@
 
         function initMap() {
             if (mapInstance) return;
-            const imageUrl =
-            'https://i.ibb.co/S7JX3B9F/y-Hmd-Kj-RYXN2w-FOq-Gu51-DH-d1-Kl-HB7-Suy2pnw-B4yo65-FT0-NI4q-X21f-HQ6r-DIY5-A2c-Csbssua-Zs-Ph-D-Ik-QD2-Xyy.jpg';
+            const imageUrl = 'https://i.ibb.co/S7JX3B9F/y-Hmd-Kj-RYXN2w-FOq-Gu51-DH-d1-Kl-HB7-Suy2pnw-B4yo65-FT0-NI4q-X21f-HQ6r-DIY5-A2c-Csbssua-Zs-Ph-D-Ik-QD2-Xyy.jpg';
             const imageWidth = 1536;
             const imageHeight = 1024;
 
