@@ -589,57 +589,57 @@
         }
 /* ===== МОДАЛЬНОЕ ОКНО С КАСТОМНЫМ СКРОЛЛОМ ===== */
 
+/* Внешний контейнер — без скролла, только рамка и отступы */
+.overlay-content {
+    background: #f5efe8;
+    border: 2px solid #b97f44;
+    border-radius: 28px;
+    max-width: 800px;
+    width: 100%;
+    padding: 30px 35px;
+    position: relative;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+    transition: background 0.3s, border-color 0.3s;
+    /* overflow-y: auto; УБРАТЬ */
+}
+
 /* Внутренняя обёртка — именно она скроллится и не вылазит за углы */
 .overlay-scroll-wrapper {
-    max-height: 70vh;
+    max-height: 70vh; /* или 80vh, подбери */
     overflow-y: auto;
-    padding-right: 5px;
-    margin-right: -5px;
-    scrollbar-width: thin;          /* для Firefox */
-    scrollbar-color: transparent transparent; /* скрыт по умолчанию */
-    transition: scrollbar-color 0.3s;
+    padding-right: 5px; /* небольшой отступ, чтобы скролл не касался края */
+    margin-right: -5px; /* компенсируем отступ, чтобы контент не сужался */
 }
 
-/* Показываем скролл при наведении на обёртку (для Firefox) */
-.overlay-scroll-wrapper:hover {
-    scrollbar-color: #b97f44 #e8e0d5;
-}
-
-/* ----- СТИЛИЗАЦИЯ ДЛЯ WEBKIT (Chrome, Edge, Safari) ----- */
-
-/* Полоса прокрутки — прозрачная по умолчанию */
+/* Стилизация скролла внутри обёртки */
 .overlay-scroll-wrapper::-webkit-scrollbar {
     width: 4px;
 }
 .overlay-scroll-wrapper::-webkit-scrollbar-track {
-    background: transparent;     /* трек прозрачный */
+    background: transparent;
     margin: 16px 0;
 }
 .overlay-scroll-wrapper::-webkit-scrollbar-thumb {
-    background: transparent;     /* ползунок прозрачный */
-    border-radius: 10px;
+    background: transparent;
     transition: 0.3s;
+    border-radius: 10px;
+}
+.overlay-scroll-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #a06a3a;
 }
 
-/* При наведении на обёртку показываем ползунок */
-.overlay-scroll-wrapper:hover::-webkit-scrollbar-thumb {
-    background: #b97f44;         /* цвет ползунка */
+/* Тёмная тема */
+body.dark-theme .overlay-content {
+    background: #3a3228;
+    border-color: #c9a87a;
 }
-.overlay-scroll-wrapper:hover::-webkit-scrollbar-thumb:hover {
-    background: #a06a3a;         /* цвет при наведении на сам ползунок */
+body.dark-theme .overlay-scroll-wrapper::-webkit-scrollbar-track {
+    background: transparent;
 }
-
-/* ----- ТЁМНАЯ ТЕМА (WebKit) ----- */
-body.dark-theme .overlay-scroll-wrapper {
-    scrollbar-color: transparent transparent;
-}
-body.dark-theme .overlay-scroll-wrapper:hover {
-    scrollbar-color: #c9a87a #2e2720;
-}
-body.dark-theme .overlay-scroll-wrapper:hover::-webkit-scrollbar-thumb {
+body.dark-theme .overlay-scroll-wrapper::-webkit-scrollbar-thumb {
     background: #c9a87a;
 }
-body.dark-theme .overlay-scroll-wrapper:hover::-webkit-scrollbar-thumb:hover {
+body.dark-theme .overlay-scroll-wrapper::-webkit-scrollbar-thumb:hover {
     background: #b8976a;
 }
         .overlay-content .close-btn {
