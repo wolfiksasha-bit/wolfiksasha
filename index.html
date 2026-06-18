@@ -832,16 +832,18 @@ body.dark-theme .overlay-scroll-wrapper::-webkit-scrollbar-thumb:hover {
                     <area shape="circle" coords="770,850" href="#" title="Форт Хоука" alt="Форт Хоука">
                     <area shape="circle" coords="470,1060" href="#" title="«Эмбер»" alt="Эмбер">
                     <area shape="circle" coords="260,870" href="#" title="Узел (горный)" alt="Узел">
+                    <area shape="circle" coords="350,800" href="#" title="Санаторий (База Восса)" alt="База Восса">
                 </map>
                 <!-- ВИДИМЫЕ МАРКЕРЫ -->
                 <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;">
-                    <div data-id="10" style="position: absolute; left: 43%; top: 76%; width: 20px; height: 20px; background: #b97f44; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="«Предел»"></div>
-                    <div data-id="11" style="position: absolute; left: 54%; top: 59%; width: 20px; height: 20px; background: #b97f44; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="Кедровый Лог"></div>
-                    <div data-id="12" style="position: absolute; left: 21%; top: 67%; width: 20px; height: 20px; background: #b35e3a; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="Кровавый лес"></div>
-                    <div data-id="13" style="position: absolute; left: 79%; top: 29%; width: 20px; height: 20px; background: #8b6b48; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="Маяк Чистых"></div>
-                    <div data-id="14" style="position: absolute; left: 77%; top: 85%; width: 20px; height: 20px; background: #b35e3a; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="Форт Хоука"></div>
-                    <div data-id="15" style="position: absolute; left: 47%; top: 106%; width: 20px; height: 20px; background: #b97f44; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="«Эмбер»"></div>
-                    <div data-id="16" style="position: absolute; left: 26%; top: 87%; width: 20px; height: 20px; background: #5f3e28; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="Узел (горный)"></div>
+                    <div data-id="10" style="position: absolute; left: 50%; top: 40%; width: 20px; height: 20px; background: #b97f44; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="«Предел»"></div>
+                    <div data-id="11" style="position: absolute; left: 63%; top: 60%; width: 20px; height: 20px; background: #b97f44; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="Кедровый Лог"></div>
+                    <div data-id="12" style="position: absolute; left: 58%; top: 30%; width: 20px; height: 20px; background: #b35e3a; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="Кровавый лес"></div>
+                    <div data-id="13" style="position: absolute; left: 22%; top: 72%; width: 20px; height: 20px; background: #8b6b48; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="Маяк Чистых"></div>
+                    <div data-id="14" style="position: absolute; left: 43%; top: 65%; width: 20px; height: 20px; background: #b35e3a; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="Форт Хоука"></div>
+                    <div data-id="15" style="position: absolute; left: 70%; top: 20%; width: 20px; height: 20px; background: #b97f44; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="«Эмбер»"></div>
+                    <div data-id="16" style="position: absolute; left: 87%; top: 47%; width: 20px; height: 20px; background: #5f3e28; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="Узел (горный)"></div>
+               <div data-id="17" style="position: absolute; left: 35%; top: 80%; width: 20px; height: 20px; background: #b97f44; border: 2px solid #ffd966; border-radius: 50%; cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px black;" title="База Восса"></div>
                 </div>
             </div>
         </div>
@@ -1039,6 +1041,20 @@ body.dark-theme .overlay-scroll-wrapper::-webkit-scrollbar-thumb:hover {
             relations: ["Синхронисты (Восс)", "Кровавый лес"],
             comment: "Корб: «Туда можно войти. Но не факт, что выйдешь.»"
         }, {
+
+{
+    id: 17,
+    title: "Санаторий (База Восса)",
+    type: "locations",
+    status: "danger",
+    image: "", // можно указать ссылку на картинку, если есть
+    text: "Главный оплот синхронистов под руководством Элиана Восса. Скрытая база в горах, где проводятся эксперименты над памятью.",
+    full_text: "База Восса — это хорошо укреплённый комплекс, затерянный в труднодоступных районах. Здесь Элиан Восс проводит свои опыты по слиянию сознаний. Попасть туда почти невозможно без проводника из числа синхронистов.",
+    extra: "Говорят, что внутри базы хранятся протоколы Разрыва и личные записи Восса.",
+    relations: ["Синхронисты (Восс)", "Узел (горный)"],
+    comment: "Корб: «Мы не знаем точно, где она. Но все дороги ведут к Воссу.»"
+}
+            
             id: 20,
             title: "Стеклянный дождь",
             type: "anomalies",
